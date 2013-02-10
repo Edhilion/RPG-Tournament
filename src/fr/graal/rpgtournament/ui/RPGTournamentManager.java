@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.trolltech.qt.core.QDateTime;
@@ -32,7 +33,7 @@ import fr.graal.rpgtournament.game.Table;
 import fr.graal.rpgtournament.notation.Notation;
 import fr.graal.rpgtournament.player.GMComparator;
 import fr.graal.rpgtournament.player.PCComparator;
-import fr.graal.rpgtournament.player.Person;
+import fr.graal.rpgtournament.player.Player;
 import fr.graal.rpgtournament.print.PrintRound;
 import fr.graal.rpgtournament.tournament.Round;
 import fr.graal.rpgtournament.tournament.TournamentSchedule;
@@ -239,28 +240,30 @@ public class RPGTournamentManager extends QMainWindow {
 			}
 		}
 		
-    	Person p;
+    	Player player;
     	String t;
-    	Hashtable<Integer,Round> rdList = new Hashtable<Integer,Round>();
-    	Hashtable<Integer,String> gmGames;
-    	Hashtable<Integer,String> pGames;
+    	Hashtable<Integer, Round> rdList = new Hashtable<Integer,Round>();
+    	Hashtable<Integer, Game> gmGames;
+    	Hashtable<Integer, Game> pGames;
     	if (d.exec() == QDialog.DialogCode.Accepted.value()) {
     		// Attention, code moche dupliqué à refactorer !
     		// Première occurence
     		QTableWidget qtw0 = playerDialog.tableWidget0;
     		Round round0 = new Round();
-    		gmGames = new Hashtable<Integer,String>();
-    		pGames = new Hashtable<Integer,String>();
+    		gmGames = new Hashtable<Integer, Game>();
+    		pGames = new Hashtable<Integer, Game>();
     		for (int i=0; i < qtw0.rowCount(); i++) {
+    			String gameTitle = qtw0.verticalHeaderItem(i).text();
+    			Game game = new Game(gameTitle);
     			if (qtw0.item(i, 1) != null) {
     				t = qtw0.item(i, 1).text();
     				if (t.compareTo("")!=0)
-    					pGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+    					pGames.put(Integer.parseInt(t), game);
     			}
     			if (qtw0.item(i, 0) != null) {
     				t = qtw0.item(i, 0).text();
     				if (t.compareTo("")!=0)
-    					gmGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+    					gmGames.put(Integer.parseInt(t), game);
     			}
     		}
     		if (gmGames.size() > 0)
@@ -274,18 +277,20 @@ public class RPGTournamentManager extends QMainWindow {
     		// Seconde occurence
     		QTableWidget qtw1 = playerDialog.tableWidget1;
     		Round round1 = new Round();
-    		gmGames = new Hashtable<Integer,String>();
-    		pGames = new Hashtable<Integer,String>();
+    		gmGames = new Hashtable<Integer, Game>();
+    		pGames = new Hashtable<Integer, Game>();
     		for (int i=0; i < qtw1.rowCount(); i++) {
+    			String gameTitle = qtw1.verticalHeaderItem(i).text();
+    			Game game = new Game(gameTitle);
     			if (qtw1.item(i, 1) != null) {
     				t = qtw1.item(i, 1).text();
     				if (t.compareTo("")!=0)
-    					pGames.put(Integer.parseInt(t), qtw1.verticalHeaderItem(i).text());
+    					pGames.put(Integer.parseInt(t), game);
     			}
     			if (qtw1.item(i, 0) != null) {
     				t = qtw1.item(i, 0).text();
     				if (t.compareTo("")!=0)
-    					gmGames.put(Integer.parseInt(t), qtw1.verticalHeaderItem(i).text());
+    					gmGames.put(Integer.parseInt(t), game);
     			}
     		}
     		if (gmGames.size() > 0)
@@ -299,18 +304,20 @@ public class RPGTournamentManager extends QMainWindow {
     		// Troisième occurence
     		QTableWidget qtw2 = playerDialog.tableWidget2;
     		Round round2 = new Round();
-    		gmGames = new Hashtable<Integer,String>();
-    		pGames = new Hashtable<Integer,String>();
+    		gmGames = new Hashtable<Integer, Game>();
+    		pGames = new Hashtable<Integer, Game>();
     		for (int i=0; i < qtw2.rowCount(); i++) {
+    			String gameTitle = qtw2.verticalHeaderItem(i).text();
+    			Game game = new Game(gameTitle);
     			if (qtw2.item(i, 1) != null) {
     				t = qtw2.item(i, 1).text();
     				if (t.compareTo("")!=0)
-    					pGames.put(Integer.parseInt(t), qtw2.verticalHeaderItem(i).text());
+    					pGames.put(Integer.parseInt(t), game);
     			}
     			if (qtw2.item(i, 0) != null) {
     				t = qtw2.item(i, 0).text();
     				if (t.compareTo("")!=0)
-    					gmGames.put(Integer.parseInt(t), qtw2.verticalHeaderItem(i).text());
+    					gmGames.put(Integer.parseInt(t), game);
     			}
     		}
     		if (gmGames.size() > 0)
@@ -322,7 +329,7 @@ public class RPGTournamentManager extends QMainWindow {
     		if (gmGames.size()>0 || pGames.size()>0)	
     			rdList.put(2, round2);
     		
-    		p = new Person(playerDialog.lineEdit_LastName.text(),
+    		player = new Player(playerDialog.lineEdit_LastName.text(),
     				playerDialog.lineEdit_FirstName.text(),
     				(playerDialog.dateEdit_Born.dateTime().daysTo(QDateTime.currentDateTime()))/365,
     				playerDialog.radioButton.isChecked(),
@@ -331,8 +338,6 @@ public class RPGTournamentManager extends QMainWindow {
     				playerDialog.lineEdit_City.text(),
     				playerDialog.lineEdit_Phone.text(),
     				playerDialog.lineEdit_Email.text(),
-    				null,
-    				null,
     				playerDialog.checkBox_Spam.isChecked(),
     				Integer.parseInt(playerDialog.lineEdit_YearsOfRPG.text().length()>0?playerDialog.lineEdit_YearsOfRPG.text():"0"),
     				playerDialog.comboBox_Club.currentText().length()>0,
@@ -340,13 +345,13 @@ public class RPGTournamentManager extends QMainWindow {
     				playerDialog.dateEdit.date().toString(Qt.DateFormat.SystemLocaleShortDate),
     				playerDialog.checkBox_Paid.isChecked(),
     				rdList);
-    		mainDataManager.addPerson(p);
+    		mainDataManager.addPerson(player);
     		this.showPlayers();
     	}
     }
     
     public void showPlayers () {
-		ArrayList<Person> list = mainDataManager.getPlayerList();
+		ArrayList<Player> list = mainDataManager.getPlayerList();
 		QTableWidget aptw = ui.allPlayersTableWidget;
 		QTableWidget frtw = ui.fridayTableWidget;
 		QTableWidget satw = ui.saturdayTableWidget;
@@ -376,27 +381,27 @@ public class RPGTournamentManager extends QMainWindow {
 		sutw.setRowCount(0);
 		
     	
-    	Person curPerson;
+    	Player curPerson;
     	int fridayGM=0, fridayPL=0, saturdayGM=0, saturdayPL=0, sundayGM=0, sundayPL=0;
     	for (int i=0; i < list.size(); i++) {
-    		curPerson = (Person)list.get(i);
+    		curPerson = (Player)list.get(i);
     		row = aptw.rowCount();
     		aptw.insertRow(row);
     		aptw.setSortingEnabled(false);
     		int plNb=0, gmNb=0;
-    		for(int r=0; r<curPerson.getPlayerNotation().size(); r++) {
-    			if (curPerson.getPlayerNotation().getNotation(r+1).getType() == Notation.PLAYER)
+    		for(int r=0; r<curPerson.getNotation().size(); r++) {
+    			if (curPerson.getNotation().getNotation(r+1).getType() == Notation.PLAYER)
     				plNb++;
-    			else if (curPerson.getPlayerNotation().getNotation(r+1).getType() == Notation.GAME_MASTER)
+    			else if (curPerson.getNotation().getNotation(r+1).getType() == Notation.GAME_MASTER)
     				gmNb++;    				
     		}
-    		aptw.setItem(i, 0, new QTableWidgetItem(curPerson.getName()));
+    		aptw.setItem(i, 0, new QTableWidgetItem(curPerson.getLastname()));
     		aptw.setItem(i, 1, new QTableWidgetItem(curPerson.getFirstName()));
     		aptw.setItem(i, 2, new QTableWidgetItem(gmNb + ""));
     		aptw.setItem(i, 3, new QTableWidgetItem(plNb + ""));
     		aptw.setItem(i, 4, new QTableWidgetItem(getPlayerPosition(curPerson) + ""));
     		aptw.setItem(i, 5, new QTableWidgetItem(getPlayerType(curPerson)));
-    		aptw.setItem(i, 6, new QTableWidgetItem(curPerson.alreadyPaid()?"Yes":"No"));
+    		aptw.setItem(i, 6, new QTableWidgetItem(curPerson.hasAlreadyPaid()?"Yes":"No"));
     		aptw.setSortingEnabled(true);
         	/* Fill FRIDAY */
     		if (curPerson.getRoundList().get(0) != null) {
@@ -404,10 +409,10 @@ public class RPGTournamentManager extends QMainWindow {
 	    		// Players
     			frtw.insertRow(row);
     			frtw.setSortingEnabled(false);
-    			frtw.setItem(row, 0, new QTableWidgetItem(curPerson.getName()));
+    			frtw.setItem(row, 0, new QTableWidgetItem(curPerson.getLastname()));
     			frtw.setItem(row, 1, new QTableWidgetItem(curPerson.getFirstName()));
-    			frtw.setItem(row, 2, new QTableWidgetItem(curPerson.getPlayerNotation().getNotation(1).getNote() + ""));
-    			frtw.setItem(row, 3, new QTableWidgetItem(curPerson.getPlayerNotation().getNotation(1).getGame()));
+    			frtw.setItem(row, 2, new QTableWidgetItem(curPerson.getNotation().getNotation(1).getNote() + ""));
+    			frtw.setItem(row, 3, new QTableWidgetItem(curPerson.getNotation().getNotation(1).getGame().getName()));
     			frtw.setSortingEnabled(true);
 	    		// Totals
 	    		if (curPerson.getRoundList().get(0).isMaster())
@@ -420,10 +425,10 @@ public class RPGTournamentManager extends QMainWindow {
         		row = satw.rowCount();
     			satw.insertRow(row);
 	    		satw.setSortingEnabled(false);
-	    		satw.setItem(row, 0, new QTableWidgetItem(curPerson.getName()));
+	    		satw.setItem(row, 0, new QTableWidgetItem(curPerson.getLastname()));
 	    		satw.setItem(row, 1, new QTableWidgetItem(curPerson.getFirstName()));
-	    		satw.setItem(row, 2, new QTableWidgetItem(curPerson.getPlayerNotation().getNotation(2).getNote() + ""));
-	    		satw.setItem(row, 3, new QTableWidgetItem(curPerson.getPlayerNotation().getNotation(2).getGame()));
+	    		satw.setItem(row, 2, new QTableWidgetItem(curPerson.getNotation().getNotation(2).getNote() + ""));
+	    		satw.setItem(row, 3, new QTableWidgetItem(curPerson.getNotation().getNotation(2).getGame().getName()));
 	    		satw.setSortingEnabled(true);
 	    		// Totals
 	    		if (curPerson.getRoundList().get(1).isMaster())
@@ -436,10 +441,10 @@ public class RPGTournamentManager extends QMainWindow {
         		row = sutw.rowCount();
     			sutw.insertRow(row);
 	    		sutw.setSortingEnabled(false);
-	    		sutw.setItem(row, 0, new QTableWidgetItem(curPerson.getName()));
+	    		sutw.setItem(row, 0, new QTableWidgetItem(curPerson.getLastname()));
 	    		sutw.setItem(row, 1, new QTableWidgetItem(curPerson.getFirstName()));
-	    		sutw.setItem(row, 2, new QTableWidgetItem(curPerson.getPlayerNotation().getNotation(3).getNote() + ""));
-	    		sutw.setItem(row, 3, new QTableWidgetItem(curPerson.getPlayerNotation().getNotation(3).getGame()));
+	    		sutw.setItem(row, 2, new QTableWidgetItem(curPerson.getNotation().getNotation(3).getNote() + ""));
+	    		sutw.setItem(row, 3, new QTableWidgetItem(curPerson.getNotation().getNotation(3).getGame().getName()));
 	    		sutw.setSortingEnabled(true);
 	    		// Totals
 	    		if (curPerson.getRoundList().get(2).isMaster())
@@ -464,36 +469,43 @@ public class RPGTournamentManager extends QMainWindow {
 		QTableWidget qtw = ui.fridayTableWidget;
 		if (qtw.selectedItems().size() > 0) {
 	    	int row = qtw.selectedItems().get(0).row();
-	    	String ln = qtw.item(row, 0).text();
-	    	String fn = qtw.item(row, 1).text();
-	    	Person player = mainDataManager.findPerson(ln, fn);
+	    	
+	    	String lastname = qtw.item(row, 0).text();
+	    	String firstname = qtw.item(row, 1).text();
+	    	Player player = mainDataManager.findPerson(lastname, firstname);
+	    	
+	    	String gameTitle = qtw.item(row, 3).text();
+	    	Game game = new Game(gameTitle);
+	    	
 	    	if (player.getRoundList().get(0) != null) {
 	    		if (qtw.item(row, 2).text().compareTo("")!=0)
-	    			player.getPlayerNotation().getNotation(1).setNote(Integer.parseInt(qtw.item(row, 2).text()));
-		    	player.getPlayerNotation().getNotation(1).setGame(qtw.item(row, 3).text());
+	    			player.getNotation().getNotation(1).setNote(Integer.parseInt(qtw.item(row, 2).text()));
+		    	player.getNotation().getNotation(1).setGame(game);
 	    	}
 	    	
 	    	/* Games */
 	    	String t;
 	    	Hashtable<Integer,Round> rdList = new Hashtable<Integer,Round>();
-	    	Hashtable<Integer,String> gmGames;
-	    	Hashtable<Integer,String> pGames;
+	    	Hashtable<Integer, Game> gmGames;
+	    	Hashtable<Integer, Game> pGames;
 			// Attention, code moche dupliqué à refactorer !
 			// Première occurence
 			Round round0 = new Round();
 			QTableWidget qtw0 = ui.fridayGamesTableWidget;
-			gmGames = new Hashtable<Integer,String>();
-			pGames = new Hashtable<Integer,String>();
+			gmGames = new Hashtable<Integer, Game>();
+			pGames = new Hashtable<Integer, Game>();
 			for (int i=0; i < qtw0.rowCount(); i++) {
+    			String currentGameTitle = qtw0.verticalHeaderItem(i).text();
+    			Game currentGame = new Game(currentGameTitle);
 				if (qtw0.item(i, 1) != null) {
 					t = qtw0.item(i, 1).text();
 					if (t.compareTo("")!=0)
-						pGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+						pGames.put(Integer.parseInt(t), currentGame);
 				}
 				if (qtw0.item(i, 0) != null) {
 					t = qtw0.item(i, 0).text();
 					if (t.compareTo("")!=0)
-						gmGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+						gmGames.put(Integer.parseInt(t), currentGame);
 				}
 			}
 			if (gmGames.size() > 0)
@@ -503,7 +515,7 @@ public class RPGTournamentManager extends QMainWindow {
 			player.getRoundList().get(0).setGmGameList(gmGames);
 			player.getRoundList().get(0).setPGameList(pGames);
 			
-			mainDataManager.savePerson(player);
+			mainDataManager.savePlayer(player);
 		}
     }
     
@@ -512,36 +524,42 @@ public class RPGTournamentManager extends QMainWindow {
 		QTableWidget qtw = ui.saturdayTableWidget;
 		if (qtw.selectedItems().size() > 0) {
 	    	int row = qtw.selectedItems().get(0).row();
-	    	String ln = qtw.item(row, 0).text();
-	    	String fn = qtw.item(row, 1).text();
-	    	Person player = mainDataManager.findPerson(ln, fn);
+	    	String lastname = qtw.item(row, 0).text();
+	    	String firstname = qtw.item(row, 1).text();
+	    	Player player = mainDataManager.findPerson(lastname, firstname);
+	    	
+	    	String gameTitle = qtw.item(row, 3).text();
+	    	Game game = new Game(gameTitle);
+	    	
 	    	if (player.getRoundList().get(1) != null) {
 	    		if (qtw.item(row, 2).text().compareTo("")!=0)
-	    			player.getPlayerNotation().getNotation(2).setNote(Integer.parseInt(qtw.item(row, 2).text()));
-		    	player.getPlayerNotation().getNotation(2).setGame(qtw.item(row, 3).text());
+	    			player.getNotation().getNotation(2).setNote(Integer.parseInt(qtw.item(row, 2).text()));
+		    	player.getNotation().getNotation(2).setGame(game);
 	    	}
 	    	
 	    	/* Games */
 	    	String t;
-	    	Hashtable<Integer,Round> rdList = new Hashtable<Integer,Round>();
-	    	Hashtable<Integer,String> gmGames;
-	    	Hashtable<Integer,String> pGames;
+	    	Hashtable<Integer, Round> rdList = new Hashtable<Integer,Round>();
+	    	Hashtable<Integer, Game> gmGames;
+	    	Hashtable<Integer, Game> pGames;
 			// Attention, code moche dupliqué à refactorer !
 			// Première occurence
 			Round round0 = new Round();
 			QTableWidget qtw0 = ui.saturdayGamesTableWidget;
-			gmGames = new Hashtable<Integer,String>();
-			pGames = new Hashtable<Integer,String>();
+			gmGames = new Hashtable<Integer, Game>();
+			pGames = new Hashtable<Integer, Game>();
 			for (int i=0; i < qtw0.rowCount(); i++) {
+    			String currentGameTitle = qtw0.verticalHeaderItem(i).text();
+    			Game currentGame = new Game(currentGameTitle);
 				if (qtw0.item(i, 1) != null) {
 					t = qtw0.item(i, 1).text();
 					if (t.compareTo("")!=0)
-						pGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+						pGames.put(Integer.parseInt(t), currentGame);
 				}
 				if (qtw0.item(i, 0) != null) {
 					t = qtw0.item(i, 0).text();
 					if (t.compareTo("")!=0)
-						gmGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+						gmGames.put(Integer.parseInt(t), currentGame);
 				}
 			}
 			if (gmGames.size() > 0)
@@ -551,7 +569,7 @@ public class RPGTournamentManager extends QMainWindow {
 			player.getRoundList().get(1).setGmGameList(gmGames);
 			player.getRoundList().get(1).setPGameList(pGames);
 			
-			mainDataManager.savePerson(player);
+			mainDataManager.savePlayer(player);
 		}
     }
     
@@ -560,36 +578,42 @@ public class RPGTournamentManager extends QMainWindow {
 		QTableWidget qtw = ui.sundayTableWidget;
 		if (qtw.selectedItems().size() > 0) {
 	    	int row = qtw.selectedItems().get(0).row();
-	    	String ln = qtw.item(row, 0).text();
-	    	String fn = qtw.item(row, 1).text();
-	    	Person player = mainDataManager.findPerson(ln, fn);
+	    	String lastname = qtw.item(row, 0).text();
+	    	String firstname = qtw.item(row, 1).text();
+	    	Player player = mainDataManager.findPerson(lastname, firstname);
+	    	
+	    	String gameTitle = qtw.item(row, 3).text();
+	    	Game game = new Game(gameTitle);
+	    	
 	    	if (player.getRoundList().get(2) != null) {
 	    		if (qtw.item(row, 2).text().compareTo("")!=0)
-	    			player.getPlayerNotation().getNotation(3).setNote(Integer.parseInt(qtw.item(row, 2).text()));
-		    	player.getPlayerNotation().getNotation(3).setGame(qtw.item(row, 3).text());
+	    			player.getNotation().getNotation(3).setNote(Integer.parseInt(qtw.item(row, 2).text()));
+		    	player.getNotation().getNotation(3).setGame(game);
 	    	}
 	    	
 	    	/* Games */
 	    	String t;
 	    	Hashtable<Integer,Round> rdList = new Hashtable<Integer,Round>();
-	    	Hashtable<Integer,String> gmGames;
-	    	Hashtable<Integer,String> pGames;
+	    	Hashtable<Integer, Game> gmGames;
+	    	Hashtable<Integer, Game> pGames;
 			// Attention, code moche dupliqué à refactorer !
 			// Première occurence
 			Round round0 = new Round();
 			QTableWidget qtw0 = ui.sundayGamesTableWidget;
-			gmGames = new Hashtable<Integer,String>();
-			pGames = new Hashtable<Integer,String>();
+			gmGames = new Hashtable<Integer, Game>();
+			pGames = new Hashtable<Integer, Game>();
 			for (int i=0; i < qtw0.rowCount(); i++) {
+    			String currentGameTitle = qtw0.verticalHeaderItem(i).text();
+    			Game currentGame = new Game(currentGameTitle);
 				if (qtw0.item(i, 1) != null) {
 					t = qtw0.item(i, 1).text();
 					if (t.compareTo("")!=0)
-						pGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+						pGames.put(Integer.parseInt(t), currentGame);
 				}
 				if (qtw0.item(i, 0) != null) {
 					t = qtw0.item(i, 0).text();
 					if (t.compareTo("")!=0)
-						gmGames.put(Integer.parseInt(t), qtw0.verticalHeaderItem(i).text());
+						gmGames.put(Integer.parseInt(t), currentGame);
 				}
 			}
 			if (gmGames.size() > 0)
@@ -599,7 +623,7 @@ public class RPGTournamentManager extends QMainWindow {
 			player.getRoundList().get(2).setGmGameList(gmGames);
 			player.getRoundList().get(2).setPGameList(pGames);
 			
-			mainDataManager.savePerson(player);
+			mainDataManager.savePlayer(player);
 		}
     }
     
@@ -610,11 +634,11 @@ public class RPGTournamentManager extends QMainWindow {
 	    	int row = qtw.selectedItems().get(0).row();
 	    	String ln = qtw.item(row, 0).text();
 	    	String fn = qtw.item(row, 1).text();
-	    	Person player = mainDataManager.findPerson(ln, fn);
+	    	Player player = mainDataManager.findPerson(ln, fn);
 	    	
 	    	/* Games */
-	    	Hashtable<Integer,String> gmGames = (Hashtable<Integer, String>) player.getRoundList().get(0).getGmGamesList();
-	    	Hashtable<Integer,String> pGames = (Hashtable<Integer, String>) player.getRoundList().get(0).getPGamesList();
+	    	Map<Integer, Game> gmGames = player.getRoundList().get(0).getGmGamesList();
+	    	Map<Integer, Game> pGames = player.getRoundList().get(0).getPGamesList();
 	    	
 	    	QTableWidget gtw = ui.fridayGamesTableWidget;
 			
@@ -623,12 +647,13 @@ public class RPGTournamentManager extends QMainWindow {
 	    	Integer key;
 	    	for (int i=0; i < gtw.rowCount(); i++) {
 	    		rowTitle = gtw.verticalHeaderItem(i).text();
+	    		Game game = new Game(rowTitle);
 	    		// GM Games
 	    		Set<Integer> gmSet = gmGames.keySet();
 	    	    Iterator<Integer> gmItr = gmSet.iterator();
 	    	    while (gmItr.hasNext()) {
 	    	    	key = gmItr.next();
-	    	    	if ((key != null) && (gmGames.get(key).compareTo(rowTitle) == 0)) {
+	    	    	if ((key != null) && (gmGames.get(key).compareTo(game) == 0)) {
 	    	    		gtw.setItem(i, 0, new QTableWidgetItem(key.toString()));
 	    	    	}
 	    	    }
@@ -637,7 +662,7 @@ public class RPGTournamentManager extends QMainWindow {
 	    	    Iterator<Integer> plItr = plSet.iterator();
 	    	    while (plItr.hasNext()) {
 	    	    	key = plItr.next();
-	    	    	if ((key != null) && (pGames.get(key).compareTo(rowTitle) == 0)) {
+	    	    	if ((key != null) && (pGames.get(key).compareTo(game) == 0)) {
 	    	    		gtw.setItem(i, 1, new QTableWidgetItem(key.toString()));
 	    	    	}
 	    	    }
@@ -652,11 +677,11 @@ public class RPGTournamentManager extends QMainWindow {
 	    	int row = qtw.selectedItems().get(0).row();
 	    	String ln = qtw.item(row, 0).text();
 	    	String fn = qtw.item(row, 1).text();
-	    	Person player = mainDataManager.findPerson(ln, fn);
+	    	Player player = mainDataManager.findPerson(ln, fn);
 	    	
 	    	/* Games */
-	    	Hashtable<Integer,String> gmGames = (Hashtable<Integer, String>) player.getRoundList().get(1).getGmGamesList();
-	    	Hashtable<Integer,String> pGames = (Hashtable<Integer, String>) player.getRoundList().get(1).getPGamesList();
+	    	Map<Integer, Game> gmGames = player.getRoundList().get(1).getGmGamesList();
+	    	Map<Integer, Game> pGames = player.getRoundList().get(1).getPGamesList();
 	    	
 	    	QTableWidget gtw = ui.saturdayGamesTableWidget;
 			
@@ -665,12 +690,13 @@ public class RPGTournamentManager extends QMainWindow {
 	    	Integer key;
 	    	for (int i=0; i < gtw.rowCount(); i++) {
 	    		rowTitle = gtw.verticalHeaderItem(i).text();
+	    		Game game = new Game(rowTitle);
 	    		// GM Games
 	    		Set<Integer> gmSet = gmGames.keySet();
 	    	    Iterator<Integer> gmItr = gmSet.iterator();
 	    	    while (gmItr.hasNext()) {
 	    	    	key = gmItr.next();
-	    	    	if ((key != null) && (gmGames.get(key).compareTo(rowTitle) == 0)) {
+	    	    	if ((key != null) && (gmGames.get(key).compareTo(game) == 0)) {
 	    	    		gtw.setItem(i, 0, new QTableWidgetItem(key.toString()));
 	    	    	}
 	    	    }
@@ -679,7 +705,7 @@ public class RPGTournamentManager extends QMainWindow {
 	    	    Iterator<Integer> plItr = plSet.iterator();
 	    	    while (plItr.hasNext()) {
 	    	    	key = plItr.next();
-	    	    	if ((key != null) && (pGames.get(key).compareTo(rowTitle) == 0)) {
+	    	    	if ((key != null) && (pGames.get(key).compareTo(game) == 0)) {
 	    	    		gtw.setItem(i, 1, new QTableWidgetItem(key.toString()));
 	    	    	}
 	    	    }
@@ -694,11 +720,11 @@ public class RPGTournamentManager extends QMainWindow {
 	    	int row = qtw.selectedItems().get(0).row();
 	    	String ln = qtw.item(row, 0).text();
 	    	String fn = qtw.item(row, 1).text();
-	    	Person player = mainDataManager.findPerson(ln, fn);
+	    	Player player = mainDataManager.findPerson(ln, fn);
 	    	
 	    	/* Games */
-	    	Hashtable<Integer,String> gmGames = (Hashtable<Integer, String>) player.getRoundList().get(2).getGmGamesList();
-	    	Hashtable<Integer,String> pGames = (Hashtable<Integer, String>) player.getRoundList().get(2).getPGamesList();
+	    	Map<Integer, Game> gmGames = player.getRoundList().get(2).getGmGamesList();
+	    	Map<Integer, Game> pGames = player.getRoundList().get(2).getPGamesList();
 	    	
 	    	QTableWidget gtw = ui.sundayGamesTableWidget;
 			
@@ -707,12 +733,13 @@ public class RPGTournamentManager extends QMainWindow {
 	    	Integer key;
 	    	for (int i=0; i < gtw.rowCount(); i++) {
 	    		rowTitle = gtw.verticalHeaderItem(i).text();
+	    		Game game = new Game(rowTitle);
 	    		// GM Games
 	    		Set<Integer> gmSet = gmGames.keySet();
 	    	    Iterator<Integer> gmItr = gmSet.iterator();
 	    	    while (gmItr.hasNext()) {
 	    	    	key = gmItr.next();
-	    	    	if ((key != null) && (gmGames.get(key).compareTo(rowTitle) == 0)) {
+	    	    	if ((key != null) && (gmGames.get(key).compareTo(game) == 0)) {
 	    	    		gtw.setItem(i, 0, new QTableWidgetItem(key.toString()));
 	    	    	}
 	    	    }
@@ -721,7 +748,7 @@ public class RPGTournamentManager extends QMainWindow {
 	    	    Iterator<Integer> plItr = plSet.iterator();
 	    	    while (plItr.hasNext()) {
 	    	    	key = plItr.next();
-	    	    	if ((key != null) && (pGames.get(key).compareTo(rowTitle) == 0)) {
+	    	    	if ((key != null) && (pGames.get(key).compareTo(game) == 0)) {
 	    	    		gtw.setItem(i, 1, new QTableWidgetItem(key.toString()));
 	    	    	}
 	    	    }
@@ -786,11 +813,11 @@ public class RPGTournamentManager extends QMainWindow {
     	resultsDialog.resultsTabWidget.setTabText(1, "Classement PJ");
     	
     	//setCentralWidget(widget);
-		ArrayList<Person> playerList = mainDataManager.getPlayerList();
+		ArrayList<Player> playerList = mainDataManager.getPlayerList();
 		mainDataManager.pcList.removeAll(mainDataManager.pcList);
 		mainDataManager.gmList.removeAll(mainDataManager.gmList);
 		
-		for (Person player : playerList) {
+		for (Player player : playerList) {
 			if (player.getPlayerNoteAsPC().getNote() != 0) {
 				mainDataManager.pcList.add(player);
 			}
@@ -802,7 +829,7 @@ public class RPGTournamentManager extends QMainWindow {
 		Collections.sort(mainDataManager.pcList, new PCComparator());
 		Collections.sort(mainDataManager.gmList, new GMComparator());
 		
-		for (Person player : playerList) {
+		for (Player player : playerList) {
 			int pci = mainDataManager.pcList.indexOf(player);
 			int gmi = mainDataManager.gmList.indexOf(player);
 			
@@ -831,7 +858,7 @@ public class RPGTournamentManager extends QMainWindow {
 
 
 	public String playerListToString(String type) {
-		ArrayList<Person> playerList = new ArrayList<Person>();
+		ArrayList<Player> playerList = new ArrayList<Player>();
 		String returnedString = "";
 		
 		if (type.equals(Notation.PLAYER)) {
@@ -844,7 +871,7 @@ public class RPGTournamentManager extends QMainWindow {
 		
 		if (!playerList.isEmpty()) {
 			int i = 1;
-			for (Person player : playerList) {
+			for (Player player : playerList) {
 				returnedString += i + ". " + player.toString() + "\n";
 				i++;
 			}
@@ -852,7 +879,7 @@ public class RPGTournamentManager extends QMainWindow {
 		return returnedString;
 	}
     
-    public int getPlayerPosition(Person player) {
+    public int getPlayerPosition(Player player) {
 		int pci = mainDataManager.pcList.indexOf(player);
 		int gmi = mainDataManager.gmList.indexOf(player);
 		
@@ -861,7 +888,7 @@ public class RPGTournamentManager extends QMainWindow {
     
 
     
-    public String getPlayerType(Person player) {
+    public String getPlayerType(Player player) {
 		int pci = mainDataManager.pcList.indexOf(player);
 		int gmi = mainDataManager.gmList.indexOf(player);
 		
@@ -890,14 +917,14 @@ public class RPGTournamentManager extends QMainWindow {
 	    	int row = qtw.selectedItems().get(0).row();
 	    	String ln = qtw.item(row, 0).text();
 	    	String fn = qtw.item(row, 1).text();
-	    	Person player = mainDataManager.findPerson(ln, fn);
+	    	Player player = mainDataManager.findPerson(ln, fn);
 	    	if (qtw.selectedItems().get(0).text().compareToIgnoreCase("Yes") == 0) {
 	    		player.setAlreadyPaid(true);
 	    	} else {
 	    		player.setAlreadyPaid(false);
 	    	}
 			
-			mainDataManager.savePerson(player);
+			mainDataManager.savePlayer(player);
 		}
     }
     

@@ -2,9 +2,9 @@ package fr.graal.rpgtournament.player;
 
 import java.util.Comparator;
 
-public class GMComparator implements Comparator<Person>{
+public class GMComparator implements Comparator<Player>{
       
-    public int compare(Person p1, Person p2){
+    public int compare(Player p1, Player p2){
     	int p1Note = p1.getPlayerNoteAsGM().getNote();
     	int p2Note = p2.getPlayerNoteAsGM().getNote();
     	if (p1Note < p2Note) {

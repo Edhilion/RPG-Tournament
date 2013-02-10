@@ -1,11 +1,19 @@
 package fr.graal.rpgtournament.ui;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.io.*;
 
 import fr.graal.rpgtournament.RPGTournamentMngrConstants;
 import fr.graal.rpgtournament.game.Game;
-import fr.graal.rpgtournament.player.Person;
+import fr.graal.rpgtournament.player.Player;
+import fr.graal.rpgtournament.services.GameIOService;
+import fr.graal.rpgtournament.services.PlayerIOService;
 
 
 /**
@@ -19,21 +27,27 @@ import fr.graal.rpgtournament.player.Person;
  */
 
 public class MainDataManager {
+	
+	private GameIOService gameIOService;
+	private PlayerIOService playerIOService;
 
 	protected File pathFile;
 	protected File pathGameFile;
 
 	// The list of all players
-	protected ArrayList<Person> playerList;
-	protected ArrayList<Person> pcList; // classement des PJ
-	protected ArrayList<Person> gmList; // classement des MJ
+	protected ArrayList<Player> playerList;
+	protected ArrayList<Player> pcList; // classement des PJ
+	protected ArrayList<Player> gmList; // classement des MJ
 	// The list of all games
 	protected ArrayList<Game> gameList;
 
 	public MainDataManager() {
-		playerList = new ArrayList<Person>();
-		pcList = new ArrayList<Person>();
-		gmList = new ArrayList<Person>();
+		gameIOService = new GameIOService();
+		playerIOService = new PlayerIOService();
+		
+		playerList = new ArrayList<Player>();
+		pcList = new ArrayList<Player>();
+		gmList = new ArrayList<Player>();
 		gameList = new ArrayList<Game>();
 		pathFile = new File(RPGTournamentMngrConstants.saveDirectoryPlayers);
 		pathFile.mkdir();
@@ -45,8 +59,8 @@ public class MainDataManager {
 
 
 	public void saveAllPlayers() {
-		for (Person player : playerList) {
-		  savePerson(player);
+		for (Player player : playerList) {
+		  savePlayer(player);
 		}
 	}
   
@@ -72,7 +86,7 @@ public class MainDataManager {
   	}
 
 
-  	protected Person createPerson(String fileName) {
+  	protected Player createPerson(String fileName) {
   		FileInputStream in = null;
   		try {
   			in = new FileInputStream(fileName);
@@ -80,21 +94,21 @@ public class MainDataManager {
   		catch (FileNotFoundException ex) {
   			ex.printStackTrace();
   		}
-  		ObjectInputStream s = null;
+  		ObjectInputStream inputStream = null;
   		try {
-  			s = new ObjectInputStream(in);
+  			inputStream = new ObjectInputStream(in);
   		}
   		catch (IOException ex1) {
   			ex1.printStackTrace();
   		}
-  		Person p = new Person(s);
+  		Player player = playerIOService.readObject(inputStream);
   		try {
-  			s.close();
+  			inputStream.close();
   			in.close();
   		} catch (IOException ex2) {
   			ex2.printStackTrace();
   		}
-  		return p;
+  		return player;
   	}
   	
   	protected Game createGame(String fileName) {
@@ -112,7 +126,7 @@ public class MainDataManager {
   		catch (IOException ex1) {
   			ex1.printStackTrace();
   		}
-  		Game g = new Game(s);
+  		Game g = gameIOService.readObject(s);
   		try {
   			s.close();
   			in.close();
@@ -123,9 +137,9 @@ public class MainDataManager {
   	}
 
 
-  	public void addPerson(Person p) {
+  	public void addPerson(Player p) {
   		playerList.add(p);
-  		savePerson(p);
+  		savePlayer(p);
   	}
 
   	public void addGame(Game g) {
@@ -133,40 +147,40 @@ public class MainDataManager {
   		saveGame(g);
   	}
 
-  	public void savePerson(Person p) {
+  	public void savePlayer(Player player) {
   		FileOutputStream out = null;
   		try {
   			out = new FileOutputStream(RPGTournamentMngrConstants.saveDirectoryPlayers + File.separator +
-                                 p.getName() + p.getFirstName());
+                                 player.getLastname() + player.getFirstName());
   		} catch (FileNotFoundException ex) {
   			ex.printStackTrace();
   		}
 
   		try {
-  			ObjectOutputStream s = new ObjectOutputStream(out);
-  			p.writeObject(s);
-  			s.flush();
-  			s.close();
+  			ObjectOutputStream outputStream = new ObjectOutputStream(out);
+  			playerIOService.writeObject(outputStream, player);
+  			outputStream.flush();
+  			outputStream.close();
   			out.close();
   		} catch (IOException ex1) {
   			ex1.printStackTrace();
   		}
   	}
   	
-  	public void saveGame(Game g) {
+  	public void saveGame(Game game) {
   		FileOutputStream out = null;
   		try {
   			out = new FileOutputStream(RPGTournamentMngrConstants.saveDirectoryGames + File.separator +
-                                 g.getName());
+                                 game.getName());
   		} catch (FileNotFoundException ex) {
   			ex.printStackTrace();
   		}
 
   		try {
-  			ObjectOutputStream s = new ObjectOutputStream(out);
-  			g.writeObject(s);
-  			s.flush();
-  			s.close();
+  			ObjectOutputStream outputStream = new ObjectOutputStream(out);
+  			gameIOService.writeObject(outputStream, game);
+  			outputStream.flush();
+  			outputStream.close();
   			out.close();
   		} catch (IOException ex1) {
   			ex1.printStackTrace();
@@ -174,11 +188,11 @@ public class MainDataManager {
   	}
 
 
-  	public void removePerson(Person p) {
+  	public void removePerson(Player p) {
   		playerList.remove(p);
   		try {
-  			if (!(new File(RPGTournamentMngrConstants.saveDirectoryPlayers + File.separator + p.getName() + p.getFirstName())).delete()) {
-  				System.out.println("Error while deleting file: " + RPGTournamentMngrConstants.saveDirectoryPlayers + File.separator + p.getName() + p.getFirstName());
+  			if (!(new File(RPGTournamentMngrConstants.saveDirectoryPlayers + File.separator + p.getLastname() + p.getFirstName())).delete()) {
+  				System.out.println("Error while deleting file: " + RPGTournamentMngrConstants.saveDirectoryPlayers + File.separator + p.getLastname() + p.getFirstName());
   			}
   		} catch (Exception exp) {
   			exp.printStackTrace();
@@ -196,7 +210,7 @@ public class MainDataManager {
   		}
   	}
 
-  	public ArrayList<Person> getPlayerList() {
+  	public ArrayList<Player> getPlayerList() {
   		return this.playerList;
   	}
   	
@@ -205,8 +219,8 @@ public class MainDataManager {
   	}
 
 
-  	public Person findPerson(String name, String firstName) {
-  		for (Person player : playerList) {
+  	public Player findPerson(String name, String firstName) {
+  		for (Player player : playerList) {
   			if (player.equals(name, firstName)) {
   				return player;
   			}
@@ -224,7 +238,7 @@ public class MainDataManager {
   	}
 
 
-  	public void updatePerson(Person previousPerson, Person newPerson) {
+  	public void updatePerson(Player previousPerson, Player newPerson) {
   		removePerson(previousPerson);
   		addPerson(newPerson);
   	}

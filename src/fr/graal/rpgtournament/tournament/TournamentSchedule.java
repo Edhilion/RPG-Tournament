@@ -9,14 +9,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import fr.graal.rpgtournament.RPGTournamentMngrConstants;
+import fr.graal.rpgtournament.game.Game;
 import fr.graal.rpgtournament.game.Table;
 import fr.graal.rpgtournament.notation.Notation;
-import fr.graal.rpgtournament.player.Person;
+import fr.graal.rpgtournament.player.Player;
 
 
 /**
@@ -33,13 +35,13 @@ public class TournamentSchedule implements Serializable {
 
 	private static final long serialVersionUID = -7447165790760414910L;
 	
-	protected Map<Integer, ArrayList<Table>> tournamentSchedule;
-	protected Map<Integer, ArrayList<Person>> playerListWithoutTable;
+	protected Map<Integer, List<Table>> tournamentSchedule;
+	protected Map<Integer, List<Player>> playerListWithoutTable;
 
 	public TournamentSchedule() {
 		System.out.println("création activée");
-		tournamentSchedule = new HashMap<Integer, ArrayList<Table>>();
-		playerListWithoutTable = new HashMap<Integer, ArrayList<Person>>();
+		tournamentSchedule = new HashMap<Integer, List<Table>>();
+		playerListWithoutTable = new HashMap<Integer, List<Player>>();
 	}
 
 	public TournamentSchedule (ObjectInputStream ois) {
@@ -50,29 +52,29 @@ public class TournamentSchedule implements Serializable {
 		return tournamentSchedule.isEmpty();
 	}
   
-	public ArrayList<Person> getPlayerListWithoutTable(int roundNbr) {
+	public List<Player> getPlayerListWithoutTable(int roundNbr) {
 		return playerListWithoutTable.get(new Integer(roundNbr));
 	}
 
-	public void addSchedule(Integer index, ArrayList<Table> schedule) {
+	public void addSchedule(Integer index, List<Table> schedule) {
 		tournamentSchedule.put(index, schedule);
 	}
 
-	public Map<Integer, ArrayList<Table>> getTournamentSchedule() {
+	public Map<Integer, List<Table>> getTournamentSchedule() {
 		return tournamentSchedule;
 	}
 
-	public ArrayList<Table> getSchedule(int roundNbr) {
+	public List<Table> getSchedule(int roundNbr) {
 		return tournamentSchedule.get(new Integer(roundNbr));
 	}
   
 	public void debugTableList(ArrayList<Table> v,int det) {
 		Table t;
-		ArrayList<Person> playersList;
+		List<Player> playersList;
 		if (!v.isEmpty()) {
 			for (int i = 0; i < v.size(); i++) {
 				t = v.get(i);
-				System.out.println("Table: " + i + " - Master: " + t.getMaster().getName());
+				System.out.println("Table: " + i + " - Master: " + t.getMaster().getLastname());
 				if (det == 1) {
 					System.out.println("Game: " + t.getGame());
 					System.out.println("Player List: ");
@@ -86,9 +88,9 @@ public class TournamentSchedule implements Serializable {
 	}
 
 	public String tableListToString(int roundNbr) {
-		ArrayList<Table> v = tournamentSchedule.get(new Integer(roundNbr));
+		List<Table> v = tournamentSchedule.get(new Integer(roundNbr));
 		Table t;
-		ArrayList<Person> playersList;
+		List<Player> playersList;
 		String returnedString = "";
 		if (!v.isEmpty()) {
 			for (int i = 0; i < v.size(); i++) {
@@ -96,7 +98,7 @@ public class TournamentSchedule implements Serializable {
 				returnedString += RPGTournamentMngrConstants.Texts.getString("Table") + 
 					" " + (i+1) + "    -    " + t.getGame() + "\n";
 				returnedString += RPGTournamentMngrConstants.Texts.getString("Master") +
-					" : " + t.getMaster().getName() + " " + t.getMaster().getFirstName() + "\n";
+					" : " + t.getMaster().getLastname() + " " + t.getMaster().getFirstName() + "\n";
 				returnedString += RPGTournamentMngrConstants.Texts.getString("Players") + "\n";
 				playersList = t.getPlayerList();
 				returnedString += playerListToString(playersList);
@@ -108,13 +110,13 @@ public class TournamentSchedule implements Serializable {
 		return returnedString;
 	}
 
-	public String playerListToString(ArrayList<Person> playersList) {
+	public String playerListToString(List<Player> playersList) {
 		String returnedString = "";
-		Person p;
+		Player p;
 		if (!playersList.isEmpty()) {
 			for (int j = 0; j < playersList.size(); j++) {
 				p = playersList.get(j);
-				returnedString = returnedString + "     -" + p.getName() + " " + p.getFirstName() + "\n";
+				returnedString = returnedString + "     -" + p.getLastname() + " " + p.getFirstName() + "\n";
 			}
 		} else {
 			returnedString = "     " + RPGTournamentMngrConstants.Texts.getString("NoPlayer") + "\n";
@@ -123,19 +125,19 @@ public class TournamentSchedule implements Serializable {
 	}
 
 
-    public void debugPlayerList(ArrayList<Person> playersList) {
-    	Person p;
+    public void debugPlayerList(List<Player> playersList) {
+    	Player p;
     	if (!playersList.isEmpty()) {
     		for (int j = 0; j < playersList.size(); j++) {
     			p = playersList.get(j);
-    			System.out.println("--"+p.getName() +" "+ p.getFirstName());
+    			System.out.println("--"+p.getLastname() +" "+ p.getFirstName());
     		}
     	} else {
     		System.out.println("Liste vide");
     	}
     }
 
-    public void computeTournamentSchedule(int nbOfRound, ArrayList<Person> arrayList) {
+    public void computeTournamentSchedule(int nbOfRound, List<Player> arrayList) {
     	for (int i=0; i<nbOfRound;i++) {
     		try {
     			computeOneRound(i, arrayList);
@@ -152,17 +154,17 @@ public class TournamentSchedule implements Serializable {
     }
 
 
-    public void computeOneRound(int roundNbr, ArrayList<Person> arrayList) throws Exception {
+    public void computeOneRound(int roundNbr, List<Player> arrayList) throws Exception {
     	System.out.println("***** Debut Creation Ronde " + roundNbr + "*******************************");
   	
     	tournamentSchedule.put(new Integer(roundNbr), new ArrayList<Table>());
   	
-    	ArrayList<Person> masterList = new ArrayList<Person>();
-    	ArrayList<Person> playerList = new ArrayList<Person>();
-    	ArrayList<Person> boyPlayerList = new ArrayList<Person>();
+    	List<Player> masterList = new ArrayList<Player>();
+    	List<Player> playerList = new ArrayList<Player>();
+    	List<Player> boyPlayerList = new ArrayList<Player>();
   	
     	int nbPeople = arrayList.size();
-    	Person p;
+    	Player p;
     	for (int i = 0; i < nbPeople; i++) {
     		p = arrayList.get(i);
     		if (p.isRoundExist(roundNbr)) {
@@ -176,23 +178,23 @@ public class TournamentSchedule implements Serializable {
     				}
     			}
     		} else {
-    			System.out.println("Le joueur " + p.getName() + " " + p.getFirstName() + " n'as pas de ronde " + roundNbr + " definie");
+    			System.out.println("Le joueur " + p.getLastname() + " " + p.getFirstName() + " n'as pas de ronde " + roundNbr + " definie");
     		}
     	}
     
-    	//Création de la liste des tables
+    	// Création de la liste des tables
     	int nbMaster = masterList.size();
-    	Person master;
+    	Player master;
     	for (int i = 0; i < nbMaster; i++) {
-	      master = (Person) masterList.get(i);
-	      if (( (Round) master.getRoundList().get(new Integer(roundNbr))).getFirstGame(true) != null) {
-	    	  tournamentSchedule.get(new Integer(roundNbr))
-	    	  	.add(new Table(master ,master.getRoundList().get(new Integer(roundNbr)).getFirstGame(true)));
-	    	  master.getPlayerNotation().getNotation(roundNbr+1)
+	      master =  masterList.get(i);
+	      if (master.getRoundList().get(roundNbr).getFirstGame(true) != null) {
+	    	  tournamentSchedule.get(roundNbr)
+	    	  	.add(new Table(master ,master.getRoundList().get(roundNbr).getFirstGame(true)));
+	    	  master.getNotation().getNotation(roundNbr+1)
 	    	  	.setGame(master.getRoundList().get(new Integer(roundNbr)).getFirstGame(true));
-	    	  master.getPlayerNotation().getNotation(roundNbr+1).setType(Notation.GAME_MASTER);
+	    	  master.getNotation().getNotation(roundNbr+1).setType(Notation.GAME_MASTER);
 	      } else {
-	    	  System.out.println(master.getName() + " " + 
+	    	  System.out.println(master.getLastname() + " " + 
 	    			  master.getFirstName() + " definis comme Maitre pour la ronde " + roundNbr + " n'a pas de jeu parametré" );
 	      } 
     	}
@@ -201,26 +203,26 @@ public class TournamentSchedule implements Serializable {
     	Collections.sort(boyPlayerList);
     	//Fusion de la liste des filles avec les garçons
     	playerList.addAll(boyPlayerList);
-    	ArrayList<Table> tableListPossible = new ArrayList<Table>();
+    	List<Table> tableListPossible = new ArrayList<Table>();
 
-    	Person player;
+    	Player player;
     	boolean playerPlaced = false;
     	int nbPlayer = playerList.size();
-    	ArrayList<Person> tempPlayerListWithoutTable = new ArrayList<Person>();
+    	List<Player> tempPlayerListWithoutTable = new ArrayList<Player>();
 
     	for (int i = 0; i < nbPlayer; i++) {
-    		player = (Person) playerList.get(i);
-    		System.out.println("---------------- Traitement de " + player.getName());
+    		player = (Player) playerList.get(i);
+    		System.out.println("---------------- Traitement de " + player.getLastname());
     		playerPlaced = false;
     		int j = 1;
     		// pour chaque jeu
     		int nbrOfGame = player.getRoundList().get(new Integer(roundNbr)).getPGamesList().size();
     		if  (nbrOfGame == 0) {
-    			System.out.println(player.getName() + " n'a pas de jeu defini pour la ronde " + roundNbr);
+    			System.out.println(player.getLastname() + " n'a pas de jeu defini pour la ronde " + roundNbr);
     		}
     		while (j <= nbrOfGame && (!playerPlaced))  {
     			tableListPossible.clear();
-    			ArrayList<Table> table = (ArrayList<Table>) tournamentSchedule.get(new Integer(roundNbr));
+    			List<Table> table = tournamentSchedule.get(new Integer(roundNbr));
     			//réinintialisation de la liste des tables (en retirant les tables pleines)
     			for (int k=0; k < table.size();k++) {
     				if ( !table.get(k).isFivePlayer() ) {
@@ -230,7 +232,7 @@ public class TournamentSchedule implements Serializable {
     			//System.out.println("TTest 1");
     			//debugTableList(tableListPossible,0);
     			// test si le joueur a des tables disponibles par rapport au jeu selectionné.
-    			ArrayList<Table> tempVector = getAvailableTableOnGame(tableListPossible,
+    			List<Table> tempVector = getAvailableTableOnGame(tableListPossible,
     					player.getRoundList().get(new Integer(roundNbr)).getGame(new Integer(j), false));
     			tableListPossible = tempVector;
     			//System.out.println("TTest 2");
@@ -272,13 +274,13 @@ public class TournamentSchedule implements Serializable {
     					tableListPossible.get(0).addPlayer(player);
     				}
     				playerPlaced = true;
-    				player.getPlayerNotation().getNotation(roundNbr+1).setGame(tableListPossible.get(0).getGame());
-    				player.getPlayerNotation().getNotation(roundNbr+1).setType(Notation.PLAYER);
-    				System.out.println(player.getName()+ " placé");
+    				player.getNotation().getNotation(roundNbr+1).setGame(tableListPossible.get(0).getGame());
+    				player.getNotation().getNotation(roundNbr+1).setType(Notation.PLAYER);
+    				System.out.println(player.getLastname()+ " placé");
     			} else {
     				// si le joueur n'est pas placé
     				if (j == nbrOfGame) {
-    					System.out.println(player.getName() + " non placé");
+    					System.out.println(player.getLastname() + " non placé");
     					tempPlayerListWithoutTable.add(player);
     				}
     			}
@@ -291,10 +293,10 @@ public class TournamentSchedule implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    protected ArrayList<Table> getAvailableTableOnPreviousMaster(ArrayList<Table> tableList, Person player, int roundNbr ) {
+    protected List<Table> getAvailableTableOnPreviousMaster(List<Table> tableList, Player player, int roundNbr ) {
     	if (roundNbr > 1) {
-    		ArrayList<Table> resultListOfTable = new ArrayList<Table>();
-    		Person master;
+    		List<Table> resultListOfTable = new ArrayList<Table>();
+    		Player master;
     		for (int j = roundNbr - 1; j > 0; j--) {
     			master = findMasterInRound(player, j);
     			if (master!=null) {
@@ -308,11 +310,11 @@ public class TournamentSchedule implements Serializable {
     		}
     		return resultListOfTable;
     	} else {
-    		return (ArrayList<Table>)tableList.clone();
+    		return tableList;
     	}
     }
 
- 	private Person findMasterInRound(Person player, int roundNbr) {
+ 	private Player findMasterInRound(Player player, int roundNbr) {
  		ArrayList<Table> tableList = (ArrayList<Table>)tournamentSchedule.get(new Integer(roundNbr));
  		int nbTable = tableList.size();
  		for (int i=0; i<nbTable; i++) {
@@ -324,8 +326,8 @@ public class TournamentSchedule implements Serializable {
  	}
 
 
- 	protected ArrayList<Table> getAvailableTableOnGame(ArrayList<Table> tableList, String game) {
- 		ArrayList<Table> resultListOfTable = new ArrayList<Table>();
+ 	protected List<Table> getAvailableTableOnGame(List<Table> tableList, Game game) {
+ 		List<Table> resultListOfTable = new ArrayList<Table>();
  		int nbTable = tableList.size();
  		for (int i=0; i<nbTable; i++) {
  			if (((Table)tableList.get(i)).getGame().equals(game)) {
@@ -336,9 +338,9 @@ public class TournamentSchedule implements Serializable {
  	}
 
 
- 	protected ArrayList<Table> getAvailableTableAge(ArrayList<Table> tableList, int playerAge) {
+ 	protected List<Table> getAvailableTableAge(List<Table> tableList, int playerAge) {
   	
- 		ArrayList<Table> resultListOfTable = new ArrayList<Table>();
+ 		List<Table> resultListOfTable = new ArrayList<Table>();
  		int nbTable = tableList.size();
  		for (int i=0; i<nbTable; i++) {
  			int masterAge = ((Table)tableList.get(i)).getMaster().getAge();
@@ -362,16 +364,16 @@ public class TournamentSchedule implements Serializable {
  	}
 
 
- 	protected ArrayList<Table> getAvailableTableClub(ArrayList<Table> tableList, String clubName) {
- 		ArrayList<Table> resultListOfTable = new ArrayList<Table>();
+ 	protected List<Table> getAvailableTableClub(List<Table> tableList, String clubName) {
+ 		List<Table> resultListOfTable = new ArrayList<Table>();
  		int nbTable = tableList.size();
  		for (int i=0; i<nbTable; i++) {
- 			ArrayList<Person> playerList = tableList.get(i).getPlayerList();
+ 			List<Player> playerList = tableList.get(i).getPlayerList();
  			int nbPlayer = playerList.size();
  			int j=0;
  			boolean clubFound = false;
  			while ((j<nbPlayer) && (!clubFound)) {
- 				if ( ((Person)playerList.get(j)).getClubName().equals(clubName)) {
+ 				if ( ((Player)playerList.get(j)).getClubName().equals(clubName)) {
  					clubFound=true;
  				}
  				j++;
@@ -383,16 +385,16 @@ public class TournamentSchedule implements Serializable {
  		return resultListOfTable;
  	}
   
- 	protected ArrayList<Table> getAvailableFemaleTable(ArrayList<Table> tableList) {
- 		ArrayList<Table> resultListOfTable = new ArrayList<Table>();
+ 	protected List<Table> getAvailableFemaleTable(List<Table> tableList) {
+ 		List<Table> resultListOfTable = new ArrayList<Table>();
  		int nbTable = tableList.size();
  		for (int i=0; i<nbTable; i++) {
- 			ArrayList<Person> playerList = tableList.get(i).getPlayerList();
+ 			List<Player> playerList = tableList.get(i).getPlayerList();
  			int nbPlayer = playerList.size();
  			int j=0;
  			boolean female = false;
  			while ((j<nbPlayer) && (!female)) {
- 				if ( (((Person)playerList.get(j)).getSex())== false) {
+ 				if ( (((Player)playerList.get(j)).getSex())== false) {
  					//System.out.println("Fille trouver table" + (i+1));
  					female=true;
  				}
@@ -405,7 +407,7 @@ public class TournamentSchedule implements Serializable {
  		return resultListOfTable;
  	}
   
- 	protected int tableMoreFilled(ArrayList<Table> tableList) {
+ 	protected int tableMoreFilled(List<Table> tableList) {
  		int index=0;
  		int nbTable = tableList.size();
  		int numberOfPlayer=0;
@@ -421,20 +423,20 @@ public class TournamentSchedule implements Serializable {
  	}
 
  	public int getNbrOfTable(int roundNbr) {
- 		return ((ArrayList<Table>)tournamentSchedule.get(new Integer(roundNbr))).size();
+ 		return tournamentSchedule.get(new Integer(roundNbr)).size();
  	}
 
  	public void ChangePlayer(String name, String firstName, int roundNbr, int newTableNbr){
- 		ArrayList<Table> schedule = (ArrayList<Table>)tournamentSchedule.get(new Integer(roundNbr));
- 		ArrayList<Person> playersList;
- 		Person p;
+ 		List<Table> schedule = tournamentSchedule.get(new Integer(roundNbr));
+ 		List<Player> playersList;
+ 		Player p;
  		Table t;
  		for (int i=0; i<schedule.size(); i++) {
  			if (!schedule.isEmpty()){
  				t = (Table)schedule.get(i);
  				playersList = t.getPlayerList();
  				for (int j=0; j<playersList.size();j++) {
- 					p = (Person)playersList.get(j);
+ 					p = (Player)playersList.get(j);
  					if (p.equals(name, firstName)){
  						playersList.remove(j);
  						t = (Table)schedule.get(newTableNbr-1);
@@ -444,10 +446,10 @@ public class TournamentSchedule implements Serializable {
  				}
  			}
  		}
- 		playersList = (ArrayList<Person>)playerListWithoutTable.get(new Integer(roundNbr));
+ 		playersList = (ArrayList<Player>)playerListWithoutTable.get(new Integer(roundNbr));
  		if (!playersList.isEmpty()){
  			for (int j=0; j<playersList.size();j++) {
- 				p = (Person)playersList.get(j);
+ 				p = (Player)playersList.get(j);
  				if (p.equals(name, firstName)){
  					playersList.remove(j);
  					t = (Table)schedule.get(newTableNbr-1);
@@ -530,8 +532,8 @@ public class TournamentSchedule implements Serializable {
  	@SuppressWarnings("unchecked")
  	public void readObject(ObjectInputStream ois) { 
  		try {
- 			this.tournamentSchedule = (Map<Integer, ArrayList<Table>>)ois.readObject();
- 			this.playerListWithoutTable = (Map<Integer, ArrayList<Person>>)ois.readObject();
+ 			this.tournamentSchedule = (Map<Integer, List<Table>>)ois.readObject();
+ 			this.playerListWithoutTable = (Map<Integer, List<Player>>)ois.readObject();
    
  		} catch (ClassNotFoundException ex) {
  			ex.printStackTrace();

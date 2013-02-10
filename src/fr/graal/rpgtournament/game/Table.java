@@ -2,14 +2,11 @@ package fr.graal.rpgtournament.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-import fr.graal.rpgtournament.player.Person;
+import fr.graal.rpgtournament.player.Player;
 
 /**
- * <p>Titre : Tournoi JDR</p>
- * <p>Description : </p>
- * <p>Copyright : Copyright (c) 2003-2012</p>
- * <p>Société : GRAAL</p>
  * @author VAN DE BOR Eric
  * @author VICARD Sébastien
  * @version 1.1
@@ -18,40 +15,40 @@ import fr.graal.rpgtournament.player.Person;
 public class Table implements Serializable {
 	private static final long serialVersionUID = -6280463294080837240L;
 	
-	protected String game;
-	protected Person master;
-	protected ArrayList<Person> playersList;
+	protected Game game;
+	protected Player master;
+	protected ArrayList<Player> playersList;
 
 	public Table() {
 	}
 
-	public Table(Person master, String game) {
+	public Table(Player master, Game game) {
 		this.game = game;
 		this.master = master;
-		this.playersList = new ArrayList<Person>();
+		this.playersList = new ArrayList<Player>();
 	}
 
-	public String getGame() {
+	public Game getGame() {
 		return game;
 	}
 
-	public void setGame(String game) {
+	public void setGame(Game game) {
 		this.game = game;
 	}
 
-	public Person getMaster() {
+	public Player getMaster() {
 		return master;
 	}
 
-	public void setmaster(Person master) {
+	public void setMaster(Player master) {
 		this.master = master;
 	}
 
-	public void addPlayer(Person player) {
+	public void addPlayer(Player player) {
 		this.playersList.add(player);
 	}
 
-	public ArrayList<Person> getPlayerList() {
+	public List<Player> getPlayerList() {
 		return playersList;
 	}
 
@@ -63,17 +60,17 @@ public class Table implements Serializable {
 		return playersList.size() == 6;
 	}
 	
-	public boolean containsPlayer(Person p) {
+	public boolean containsPlayer(Player p) {
 		int size = playersList.size();
 		for (int i=0; i<size; i++) {
-			if ( ((Person)playersList.get(i)).equals(p) ) {
+			if (playersList.get(i).equals(p)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public void removePlayer(Person p) {
+	public void removePlayer(Player p) {
 		int size = playersList.size();
 		for (int i=0; i<size; i++) {
 			if (playersList.get(i).equals(p) ) {

@@ -2,6 +2,8 @@ package fr.graal.rpgtournament.notation;
 
 import java.io.Serializable;
 
+import fr.graal.rpgtournament.game.Game;
+
 /**
  * <p>Titre : Tournoi JDR</p>
  * <p>Description : </p>
@@ -21,22 +23,20 @@ public class Notation implements Serializable {
 	
 public static final String PLAYER = "PJ";
 public static final String GAME_MASTER = "MJ";
-public static final String NO_GAME = "none";
   
   private String type;
   private int note;
-  private String game;
+  private Game game;
 
   public Notation() {
     setType(PLAYER);
     setNote(0);
-    setGame(NO_GAME);
   }
 
-  public Notation(String t, int n, String g) {
-    setType(t);
-    setNote(n);
-    setGame(g);
+  public Notation(String type, int note, Game game) {
+    setType(type);
+    setNote(note);
+    setGame(game);
   }
 
 	public void setType(String type) {
@@ -55,11 +55,11 @@ public static final String NO_GAME = "none";
 		return note;
 	}
 
-	public void setGame(String game) {
+	public void setGame(Game game) {
 		this.game = game;
 	}
 
-	public String getGame() {
+	public Game getGame() {
 		return game;
 	}
 

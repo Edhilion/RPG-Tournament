@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 
 import fr.graal.rpgtournament.RPGTournamentMngrConstants;
 import fr.graal.rpgtournament.game.Table;
-import fr.graal.rpgtournament.player.Person;
+import fr.graal.rpgtournament.player.Player;
 
 
 public class PrintRound implements Printable {
@@ -45,7 +45,7 @@ public class PrintRound implements Printable {
 		Font f2 = new Font("courier",Font.BOLD,40);
 		sTable.setFont(f2);
 		
-		JLabel sGame = new JLabel(table.getGame());
+		JLabel sGame = new JLabel(table.getGame().getName());
 		Font f3 = new Font("courier",Font.BOLD,40);
 		sGame.setFont(f3);
 		
@@ -53,7 +53,7 @@ public class PrintRound implements Printable {
 		Font f4 = new Font("courier",Font.BOLD,20);
 		sMasterLab.setFont(f4);
 		
-		JLabel sMaster = new JLabel(((Person)table.getMaster()).getName() +" "+ ((Person)table.getMaster()).getFirstName());
+		JLabel sMaster = new JLabel(((Player)table.getMaster()).getLastname() +" "+ ((Player)table.getMaster()).getFirstName());
 		Font f5 = new Font("courier",Font.BOLD,30);
 		sMaster.setFont(f5);
 		
@@ -75,9 +75,9 @@ public class PrintRound implements Printable {
 		        GridBagConstraints.NONE, new Insets(10,0,0,0),0,0 ));
 		
 		Font fPlayer = new Font("courier",Font.BOLD,30);
-		for (int i = 0 ; i < ((ArrayList<Person>)table.getPlayerList()).size() ; i++) {
+		for (int i = 0 ; i < ((ArrayList<Player>)table.getPlayerList()).size() ; i++) {
 			
-			labelPlayersList.add(new JLabel((i+1)+"- "+((Person)((ArrayList<Person>)table.getPlayerList()).get(i)).getName() + " " + ((Person)((ArrayList<Person>)table.getPlayerList()).get(i)).getFirstName()));
+			labelPlayersList.add(new JLabel((i+1)+"- "+((Player)((ArrayList<Player>)table.getPlayerList()).get(i)).getLastname() + " " + ((Player)((ArrayList<Player>)table.getPlayerList()).get(i)).getFirstName()));
 			labelPlayersList.get(i).setFont(fPlayer);
 			
 			panel.add(labelPlayersList.get(i), new GridBagConstraints(0,i+6, 2, 1, 0, 0, GridBagConstraints.NORTHWEST,
