@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0" language="jambi">
+ <class>GameSettings</class>
+ <widget class="QDialog" name="GameSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>224</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>180</y>
+     <width>341</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>com.trolltech.qt.core.Qt.FocusPolicy.TabFocus</enum>
+   </property>
+   <property name="standardButtons">
+    <set>com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Cancel|com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Ok</set>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_Required_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>371</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Game Informations</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_Name_2">
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEdit_gameName"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_Email_5">
+      <property name="text">
+       <string>Days</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="checkBox_Day1">
+        <property name="text">
+         <string>Friday</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_Day2">
+        <property name="text">
+         <string>Saturday</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_Day3">
+        <property name="text">
+         <string>Sunday</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_gameIndex"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_Name_3">
+      <property name="text">
+       <string>Position</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>lineEdit_gameName</tabstop>
+  <tabstop>lineEdit_gameIndex</tabstop>
+  <tabstop>checkBox_Day1</tabstop>
+  <tabstop>checkBox_Day2</tabstop>
+  <tabstop>checkBox_Day3</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted</signal>
+   <receiver>GameSettings</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>257</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>24</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected</signal>
+   <receiver>GameSettings</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>308</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>381</x>
+     <y>173</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

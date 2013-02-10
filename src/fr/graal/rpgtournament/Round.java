@@ -1,7 +1,12 @@
 package fr.graal.rpgtournament;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Hashtable;
+import java.util.Set;
 import java.io.Serializable;
 
 /**
@@ -55,6 +60,28 @@ public class Round implements Serializable {
 		  return (String)gmGamesList.get(gameNbr);
 	  else
 		  return (String)pGamesList.get(gameNbr);
+  }
+  
+  public String getFirstGame(boolean isMaster) {
+	  String result = null;
+	  if (isMaster) {
+		  List<Integer> indexes = new ArrayList<Integer>(gmGamesList.keySet());
+		  Collections.sort(indexes);
+		  for(Integer i : indexes) {
+			  if (gmGamesList.containsKey(i)) {
+				  result = (String)gmGamesList.get(i);
+			  }
+		  }
+	  } else {
+		  List<Integer> indexes = new ArrayList<Integer>(pGamesList.keySet());
+		  Collections.sort(indexes);
+		  for(Integer i : indexes) {
+			  if (pGamesList.containsKey(i)) {
+				  result = (String)pGamesList.get(i);
+			  }
+		  }
+	  }
+	  return result;		  
   }
 
   public void setGame(Integer gameNbr, String gameName, boolean isMaster) {

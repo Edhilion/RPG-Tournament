@@ -64,7 +64,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Note</string>
+            <string>Classement</string>
            </property>
            <property name="textAlignment">
             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
@@ -167,70 +167,6 @@
              <property name="sortingEnabled">
               <bool>true</bool>
              </property>
-             <row>
-              <property name="text">
-               <string>Yggdrasill</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Crimes</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>B.I.A.</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>ShadowRun</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Mind Dagger</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Jeu surprise</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Ombres d'Esteren</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Tenga</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
              <column>
               <property name="text">
                <string>MJ</string>
@@ -247,22 +183,6 @@
                <set>AlignHCenter|AlignVCenter|AlignCenter</set>
               </property>
              </column>
-             <item row="2" column="0">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </item>
-             <item row="2" column="1">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="1" column="4">
@@ -408,70 +328,6 @@
              <property name="sortingEnabled">
               <bool>true</bool>
              </property>
-             <row>
-              <property name="text">
-               <string>Oikouménè</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Warhammer</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Appel de Cthulhu</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Metal Adventures</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Jeu surprise</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Mind Dagger</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Ombres d'Esteren</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Tenga</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
              <column>
               <property name="text">
                <string>MJ</string>
@@ -488,22 +344,6 @@
                <set>AlignHCenter|AlignVCenter|AlignCenter</set>
               </property>
              </column>
-             <item row="2" column="0">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </item>
-             <item row="2" column="1">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="1" column="4">
@@ -649,86 +489,6 @@
              <property name="sortingEnabled">
               <bool>true</bool>
              </property>
-             <row>
-              <property name="text">
-               <string>Donjons et Dragons 4</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Pathfinder</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Capharnaüm</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Hellywood</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Dark Heresy</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Rogue Trader</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Jeu surprise</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Mind Dagger</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Ombres d'Esteren</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Tenga</string>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </row>
              <column>
               <property name="text">
                <string>MJ</string>
@@ -745,22 +505,6 @@
                <set>AlignHCenter|AlignVCenter|AlignCenter</set>
               </property>
              </column>
-             <item row="2" column="0">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </item>
-             <item row="2" column="1">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="textAlignment">
-               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="1" column="4">

@@ -1,23 +1,11 @@
 package fr.graal.rpgtournament;
 
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.EventListener;
 import java.util.Vector;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
 
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 /**
  * <p>Titre : Tournoi JDR</p>

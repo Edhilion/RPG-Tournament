@@ -12,12 +12,10 @@ import java.awt.Insets;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 
 
 public class PrintRound implements Printable {
@@ -25,7 +23,7 @@ public class PrintRound implements Printable {
 
 	public PrintRound(int nRound,int nTable, Table table) {
 		
-		Vector labelPlayersList= new Vector();
+		ArrayList<JLabel> labelPlayersList= new ArrayList<JLabel>();
 
 		frame = new JFrame();
 		JPanel panel = new JPanel();
@@ -75,10 +73,10 @@ public class PrintRound implements Printable {
 		Font fPlayer = new Font("courier",Font.BOLD,30);
 		for (int i = 0 ; i < ((ArrayList<Person>)table.getPlayerList()).size() ; i++) {
 			
-			labelPlayersList.addElement(new JLabel((i+1)+"- "+((Person)((ArrayList<Person>)table.getPlayerList()).get(i)).getName() + " " + ((Person)((ArrayList<Person>)table.getPlayerList()).get(i)).getFirstName()));
-			((JLabel) labelPlayersList.elementAt(i)).setFont(fPlayer);
+			labelPlayersList.add(new JLabel((i+1)+"- "+((Person)((ArrayList<Person>)table.getPlayerList()).get(i)).getName() + " " + ((Person)((ArrayList<Person>)table.getPlayerList()).get(i)).getFirstName()));
+			labelPlayersList.get(i).setFont(fPlayer);
 			
-			panel.add((JLabel) labelPlayersList.elementAt(i), new GridBagConstraints(0,i+6, 2, 1, 0, 0, GridBagConstraints.NORTHWEST,
+			panel.add(labelPlayersList.get(i), new GridBagConstraints(0,i+6, 2, 1, 0, 0, GridBagConstraints.NORTHWEST,
 			        GridBagConstraints.NONE, new Insets(0,15,0,0),0,0 ));
 			
 		}

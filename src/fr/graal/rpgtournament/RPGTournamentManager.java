@@ -5,11 +5,10 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
-import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -32,7 +31,7 @@ public class RPGTournamentManager extends QMainWindow {
     Ui_RPGTournamentManager ui = new Ui_RPGTournamentManager();
     MainDataManager mainDataManager = new MainDataManager();
     
-    private Tournament tournament;
+    //private Tournament tournament;
     private TournamentSchedule tournamentSchedule;
 
 
@@ -48,14 +47,16 @@ public class RPGTournamentManager extends QMainWindow {
     public RPGTournamentManager() {
         ui.setupUi(this);
         this.initActions();
-        this.tournament = new Tournament();
+        this.initGamesGrids();
+        //this.tournament = new Tournament();
     }
 
     public RPGTournamentManager(QWidget parent) {
         super(parent);
         ui.setupUi(this);
         this.initActions();
-        this.tournament = new Tournament();
+        this.initGamesGrids();
+        //this.tournament = new Tournament();
     }
     
     private void initActions() {
@@ -130,6 +131,49 @@ public class RPGTournamentManager extends QMainWindow {
     	ui.actionUpdateSundayGames.triggered.connect(this, "updateSundayGames()");
     }
     
+    public void initGamesGrids() {
+    	QTableWidget gtw0 = ui.fridayGamesTableWidget;
+    	QTableWidget gtw1 = ui.saturdayGamesTableWidget;
+    	QTableWidget gtw2 = ui.sundayGamesTableWidget;
+    	int dayOneSize, dayTwoSize, dayThreeSize;
+    	int dayOneIndex, dayTwoIndex, dayThreeIndex;
+		Collections.sort(mainDataManager.gameList);
+		
+		dayOneSize = gtw0.rowCount();
+		dayTwoSize = gtw1.rowCount();
+		dayThreeSize = gtw2.rowCount();
+		
+		for (int i=0; i < dayOneSize; i++) {
+			gtw0.removeRow(0);
+		}
+		
+		for (int i=0; i < dayTwoSize; i++) {
+			gtw1.removeRow(0);
+		}
+		
+		for (int i=0; i < dayThreeSize; i++) {
+			gtw2.removeRow(0);
+		}
+		
+		for (Game game : mainDataManager.gameList) {
+			if (game.isDayOne()) {
+				dayOneIndex = gtw0.rowCount();
+				gtw0.insertRow(dayOneIndex);				
+				gtw0.setVerticalHeaderItem(dayOneIndex, new QTableWidgetItem(game.getName()));
+			}
+			if (game.isDayTwo()) {
+				dayTwoIndex = gtw1.rowCount();
+				gtw1.insertRow(dayTwoIndex);				
+				gtw1.setVerticalHeaderItem(dayTwoIndex, new QTableWidgetItem(game.getName()));
+			}
+			if (game.isDayThree()) {
+				dayThreeIndex = gtw2.rowCount();
+				gtw2.insertRow(dayThreeIndex);				
+				gtw2.setVerticalHeaderItem(dayThreeIndex, new QTableWidgetItem(game.getName()));
+			}
+		}
+    }
+    
     
     /******************************/
     /** Actions functionalities **/
@@ -147,9 +191,35 @@ public class RPGTournamentManager extends QMainWindow {
     }
     
     public void addPlayer () {
-    	Ui_PlayerSettings playerDialog = new Ui_PlayerSettings();
+    	Ui_PlayerSettings playerDialog = new Ui_PlayerSettings();		
     	QDialog d = new QDialog(this);
     	playerDialog.setupUi(d);
+
+
+		QTableWidget _qtw0 = playerDialog.tableWidget0;
+		QTableWidget _qtw1 = playerDialog.tableWidget1;
+		QTableWidget _qtw2 = playerDialog.tableWidget2;
+		int dayOneSize, dayTwoSize, dayThreeSize;
+		Collections.sort(mainDataManager.gameList);
+		
+		for (Game game : mainDataManager.gameList) {
+			if (game.isDayOne()) {
+				dayOneSize = _qtw0.rowCount();
+				_qtw0.insertRow(dayOneSize);				
+				_qtw0.setVerticalHeaderItem(dayOneSize, new QTableWidgetItem(game.getName()));
+			}
+			if (game.isDayTwo()) {
+				dayTwoSize = _qtw1.rowCount();
+				_qtw1.insertRow(dayTwoSize);				
+				_qtw1.setVerticalHeaderItem(dayTwoSize, new QTableWidgetItem(game.getName()));
+			}
+			if (game.isDayThree()) {
+				dayThreeSize = _qtw2.rowCount();
+				_qtw2.insertRow(dayThreeSize);				
+				_qtw2.setVerticalHeaderItem(dayThreeSize, new QTableWidgetItem(game.getName()));
+			}
+		}
+		
     	Person p;
     	String t;
     	Hashtable<Integer,Round> rdList = new Hashtable<Integer,Round>();
@@ -257,12 +327,14 @@ public class RPGTournamentManager extends QMainWindow {
     }
     
     public void showPlayers () {
-    	@SuppressWarnings("unchecked")
 		ArrayList<Person> list = mainDataManager.getPlayerList();
 		QTableWidget aptw = ui.allPlayersTableWidget;
 		QTableWidget frtw = ui.fridayTableWidget;
 		QTableWidget satw = ui.saturdayTableWidget;
 		QTableWidget sutw = ui.sundayTableWidget;
+		
+		this.initGamesGrids();
+		
 		int row = aptw.rowCount();
 		for (int r=0; r<row; r++) {
 			aptw.removeRow(row);
@@ -303,8 +375,8 @@ public class RPGTournamentManager extends QMainWindow {
     		aptw.setItem(i, 1, new QTableWidgetItem(curPerson.getFirstName()));
     		aptw.setItem(i, 2, new QTableWidgetItem(gmNb + ""));
     		aptw.setItem(i, 3, new QTableWidgetItem(plNb + ""));
-    		aptw.setItem(i, 4, new QTableWidgetItem(curPerson.getPlayerNote().getNote() + ""));
-    		aptw.setItem(i, 5, new QTableWidgetItem(curPerson.getPlayerNote().getType()));
+    		aptw.setItem(i, 4, new QTableWidgetItem(getPlayerPosition(curPerson) + ""));
+    		aptw.setItem(i, 5, new QTableWidgetItem(getPlayerType(curPerson)));
     		aptw.setItem(i, 6, new QTableWidgetItem(curPerson.alreadyPaid()?"Yes":"No"));
     		aptw.setSortingEnabled(true);
         	/* Fill FRIDAY */
@@ -526,6 +598,7 @@ public class RPGTournamentManager extends QMainWindow {
 	    	Hashtable<Integer,String> pGames = (Hashtable<Integer, String>) player.getRoundList().get(0).getPGamesList();
 	    	
 	    	QTableWidget gtw = ui.fridayGamesTableWidget;
+			
 	    	gtw.clearContents();
 	    	String rowTitle;
 	    	Integer key;
@@ -567,6 +640,7 @@ public class RPGTournamentManager extends QMainWindow {
 	    	Hashtable<Integer,String> pGames = (Hashtable<Integer, String>) player.getRoundList().get(1).getPGamesList();
 	    	
 	    	QTableWidget gtw = ui.saturdayGamesTableWidget;
+			
 	    	gtw.clearContents();
 	    	String rowTitle;
 	    	Integer key;
@@ -608,6 +682,7 @@ public class RPGTournamentManager extends QMainWindow {
 	    	Hashtable<Integer,String> pGames = (Hashtable<Integer, String>) player.getRoundList().get(2).getPGamesList();
 	    	
 	    	QTableWidget gtw = ui.sundayGamesTableWidget;
+			
 			gtw.clearContents();
 	    	String rowTitle;
 	    	Integer key;
@@ -665,7 +740,19 @@ public class RPGTournamentManager extends QMainWindow {
     }
     
     public void addGame () {
-    	
+    	Ui_GameSettings gameDialog = new Ui_GameSettings();
+    	QDialog d = new QDialog(this);
+    	gameDialog.setupUi(d);
+    	Game g;
+    	if (d.exec() == QDialog.DialogCode.Accepted.value()) {
+    		g = new Game(gameDialog.lineEdit_gameName.text(),
+    				gameDialog.checkBox_Day1.isChecked(),
+    				gameDialog.checkBox_Day2.isChecked(),
+    				gameDialog.checkBox_Day3.isChecked(), 
+    				new Integer(gameDialog.lineEdit_gameIndex.text()));
+    		mainDataManager.addGame(g);
+    		this.showPlayers();
+    	}
     }
     
     public void showGames () {
@@ -673,7 +760,105 @@ public class RPGTournamentManager extends QMainWindow {
     }
     
     public void generateResults () {
+    	Ui_ResultsPrompt resultsDialog = new Ui_ResultsPrompt();
+    	QDialog d = new QDialog(this);
+    	resultsDialog.setupUi(d);
+    	resultsDialog.resultsTabWidget.setTabText(0, "Classement MJ");
+    	resultsDialog.resultsTabWidget.setTabText(1, "Classement PJ");
+    	
     	//setCentralWidget(widget);
+		ArrayList<Person> playerList = mainDataManager.getPlayerList();
+		mainDataManager.pcList.removeAll(mainDataManager.pcList);
+		mainDataManager.gmList.removeAll(mainDataManager.gmList);
+		
+		for (Person player : playerList) {
+			if (player.getPlayerNoteAsPC().getNote() != 0) {
+				mainDataManager.pcList.add(player);
+			}
+			if (player.getPlayerNoteAsGM().getNote() != 0) {
+				mainDataManager.gmList.add(player);
+			}
+		}
+		
+		Collections.sort(mainDataManager.pcList, new PCComparator());
+		Collections.sort(mainDataManager.gmList, new GMComparator());
+		
+		for (Person player : playerList) {
+			int pci = mainDataManager.pcList.indexOf(player);
+			int gmi = mainDataManager.gmList.indexOf(player);
+			
+			if (gmi != -1 && pci != -1) {
+				if (pci < gmi) {
+					// si le joueur est mieux classé PJ que MJ
+					// on l'enlève de la liste des MJ
+					mainDataManager.gmList.remove(player);
+				} else {
+					// si le joueur est mieux classé MJ que PJ (ou équivalent)
+					// on l'enlève de la liste des PJ
+					mainDataManager.pcList.remove(player);				
+				}
+			}
+		}
+		
+		resultsDialog.actionPrintGMTables.triggered.connect(this, "printGMTables()");
+		resultsDialog.actionPrintPCTables.triggered.connect(this, "printPCTables()");
+		resultsDialog.gmResultsTextBrowser.setText(this.playerListToString(Notation.GAME_MASTER));
+		resultsDialog.pcResultsTextBrowser.setText(this.playerListToString(Notation.PLAYER));
+    	if (d.exec() == QDialog.DialogCode.Accepted.value()) {
+    		//tournamentSchedule.save();    	
+    	}
+    }
+    
+
+
+	public String playerListToString(String type) {
+		ArrayList<Person> playerList = new ArrayList<Person>();
+		String returnedString = "";
+		
+		if (type.equals(Notation.PLAYER)) {
+			playerList = mainDataManager.pcList;
+		} else if (type.equals(Notation.GAME_MASTER)) {
+			playerList = mainDataManager.gmList;
+		} else {
+			throw new IllegalArgumentException("Mauvais type");
+		}
+		
+		if (!playerList.isEmpty()) {
+			int i = 1;
+			for (Person player : playerList) {
+				returnedString += i + ". " + player.toString() + "\n";
+				i++;
+			}
+		}
+		return returnedString;
+	}
+    
+    public int getPlayerPosition(Person player) {
+		int pci = mainDataManager.pcList.indexOf(player);
+		int gmi = mainDataManager.gmList.indexOf(player);
+		
+		return Math.max(pci, gmi) + 1;
+    }
+    
+
+    
+    public String getPlayerType(Person player) {
+		int pci = mainDataManager.pcList.indexOf(player);
+		int gmi = mainDataManager.gmList.indexOf(player);
+		
+		if (pci != -1 && gmi != -1) {
+			if (pci < gmi) {
+				return Notation.PLAYER;
+			} else {
+				return Notation.GAME_MASTER;
+			}
+		} else if (pci == -1 && gmi != -1) {
+			return Notation.GAME_MASTER;
+		} else if (pci != -1 && gmi == -1) {
+			return Notation.PLAYER;
+		} else {
+			return "-";
+		}
     }
     
     public void setPreferences () {
@@ -731,11 +916,73 @@ public class RPGTournamentManager extends QMainWindow {
     }
     
 	public void printSaturdayTables() {
-	    	
+		int nRound = 1;
+    	ArrayList<Table> tableList = (ArrayList<Table>) tournamentSchedule.getTournamentSchedule().get(new Integer(1));
+    	
+    	PrinterJob printJob = PrinterJob.getPrinterJob ();
+		Book book = new Book ();
+		Vector printInBook = new Vector();
+		Paper papier = new Paper();
+		papier.setImageableArea(0.0, 0.0, papier.getWidth(), papier.getHeight());
+		
+		PageFormat documentPageFormat = new PageFormat  ();
+		documentPageFormat.setOrientation (PageFormat.LANDSCAPE);
+		documentPageFormat.setPaper(papier);
+		  
+		  
+		//create printing list and add in printing book
+		for (int j=0 ; j < tableList.size(); j++ ) {
+			printInBook.add(new PrintRound (nRound,j,(Table) tableList.get(j)));
+			book.append ((Printable) printInBook.elementAt(j), documentPageFormat);         
+		}
+		  
+		printJob.setPageable (book); 
+		 
+		if (printJob.printDialog()) {
+		   try {
+		      printJob.print();  
+		   } catch (Exception PrintException) {
+		      PrintException.printStackTrace();
+		   }        
+		}  
 	 }
 	
 	public void printSundayTables() {
+		int nRound = 2;
+    	ArrayList<Table> tableList = (ArrayList<Table>) tournamentSchedule.getTournamentSchedule().get(new Integer(2));
+    	
+    	PrinterJob printJob = PrinterJob.getPrinterJob ();
+		Book book = new Book ();
+		Vector printInBook = new Vector();
+		Paper papier = new Paper();
+		papier.setImageableArea(0.0, 0.0, papier.getWidth(), papier.getHeight());
 		
+		PageFormat documentPageFormat = new PageFormat  ();
+		documentPageFormat.setOrientation (PageFormat.LANDSCAPE);
+		documentPageFormat.setPaper(papier);
+		  
+		  
+		//create printing list and add in printing book
+		for (int j=0 ; j < tableList.size(); j++ ) {
+			printInBook.add(new PrintRound (nRound,j,(Table) tableList.get(j)));
+			book.append ((Printable) printInBook.elementAt(j), documentPageFormat);         
+		}
+		  
+		printJob.setPageable (book); 
+		 
+		if (printJob.printDialog()) {
+		   try {
+		      printJob.print();  
+		   } catch (Exception PrintException) {
+		      PrintException.printStackTrace();
+		   }        
+		}  
+	}
+	
+	public void printPCTables() {
+	}
+	
+	public void printGMTables() {
 	}
 
     

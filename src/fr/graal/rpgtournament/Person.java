@@ -219,6 +219,26 @@ protected String name;
 	  }
 	  return maxNote;
   }
+  
+  public Notation getPlayerNoteAsPC() {
+	  Notation maxPCNote = new Notation();
+	  for (int i=1; i <= playerNotation.size(); i++) {
+		  Notation rdNote = playerNotation.getNotation(i);
+		  if (rdNote.getNote() > maxPCNote.getNote() && rdNote.getType().equals(Notation.PLAYER))
+			  maxPCNote = rdNote;
+	  }
+	  return maxPCNote;
+  }
+  
+  public Notation getPlayerNoteAsGM() {
+	  Notation maxGMNote = new Notation();
+	  for (int i=1; i <= playerNotation.size(); i++) {
+		  Notation rdNote = playerNotation.getNotation(i);
+		  if (rdNote.getNote() > maxGMNote.getNote() && rdNote.getType().equals(Notation.GAME_MASTER))
+			  maxGMNote = rdNote;
+	  }
+	  return maxGMNote;
+  }
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -423,6 +443,9 @@ public void setPlayerNotation(PlayerNotation playerNotation) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+public String toString() {
+	return this.getName() + " " + this.getFirstName();
+}
 
 
 }

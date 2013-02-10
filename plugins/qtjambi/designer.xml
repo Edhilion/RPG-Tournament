@@ -1,0 +1,14 @@
+<qt-jambi-custom-widget-list>
+    <qt-jambi-custom-widget
+        class="fr.graal.rpgtournament.PlayerSettings"
+        group="RPG-Tournament"
+    />
+    <qt-jambi-custom-widget
+        class="fr.graal.rpgtournament.RPGTournamentManager"
+        group="RPG-Tournament"
+    />
+    <qt-jambi-custom-widget
+        class="fr.graal.rpgtournament.RoundPrompt"
+        group="RPG-Tournament"
+    />
+</qt-jambi-custom-widget-list>

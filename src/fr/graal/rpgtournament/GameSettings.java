@@ -2,26 +2,25 @@ package fr.graal.rpgtournament;
 
 import com.trolltech.qt.gui.*;
 
-public class RoundPrompt extends QDialog {
+public class GameSettings extends QDialog {
 
-    Ui_RoundPrompt ui = new Ui_RoundPrompt();
+    Ui_GameSettings ui = new Ui_GameSettings();
 
     public static void main(String[] args) {
         QApplication.initialize(args);
 
-        RoundPrompt testRoundPrompt = new RoundPrompt();
-        testRoundPrompt.show();
+        GameSettings testGameSettings = new GameSettings();
+        testGameSettings.show();
 
         QApplication.exec();
     }
 
-    public RoundPrompt() {
+    public GameSettings() {
         ui.setupUi(this);
     }
 
-    public RoundPrompt(QWidget parent) {
+    public GameSettings(QWidget parent) {
         super(parent);
         ui.setupUi(this);
     }
-    
-    }
+}

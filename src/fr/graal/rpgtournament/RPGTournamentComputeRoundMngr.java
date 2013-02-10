@@ -18,7 +18,8 @@ import javax.swing.JDialog;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class RPGTournamentComputeRoundMngr extends JDialog {
-	
+	private static final long serialVersionUID = -3327833446219680090L;
+
 	public RPGTournamentComputeRoundMngr(Frame frame,int nbRound,TournamentSchedule tournamentSchedule,ActionListener al) {
 	  	super(frame, RPGTournamentMngrConstants.Texts.getString("RPGTournamentComputeRoundMngr"), true);
 	    this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
