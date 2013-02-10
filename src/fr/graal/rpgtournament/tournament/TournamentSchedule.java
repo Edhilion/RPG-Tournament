@@ -1,4 +1,4 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.tournament;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Collections;
+
+import fr.graal.rpgtournament.RPGTournamentMngrConstants;
+import fr.graal.rpgtournament.game.Table;
+import fr.graal.rpgtournament.notation.Notation;
+import fr.graal.rpgtournament.player.Person;
 
 
 /**

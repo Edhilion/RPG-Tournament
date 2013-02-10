@@ -1,7 +1,11 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.ui;
 
 import java.util.ArrayList;
 import java.io.*;
+
+import fr.graal.rpgtournament.RPGTournamentMngrConstants;
+import fr.graal.rpgtournament.game.Game;
+import fr.graal.rpgtournament.player.Person;
 
 
 /**

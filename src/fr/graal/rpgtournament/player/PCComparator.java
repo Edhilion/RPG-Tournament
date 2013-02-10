@@ -1,4 +1,4 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.player;
 
 import java.util.Comparator;
 

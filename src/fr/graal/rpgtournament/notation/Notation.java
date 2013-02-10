@@ -1,4 +1,4 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.notation;
 
 import java.io.Serializable;
 

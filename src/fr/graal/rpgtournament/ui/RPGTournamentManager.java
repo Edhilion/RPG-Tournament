@@ -1,4 +1,4 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.ui;
 
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
@@ -9,14 +9,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import com.trolltech.qt.core.QDateTime;
 import com.trolltech.qt.core.Qt;
-import com.trolltech.qt.gui.*;
+import com.trolltech.qt.gui.QApplication;
+import com.trolltech.qt.gui.QDialog;
+import com.trolltech.qt.gui.QMainWindow;
+import com.trolltech.qt.gui.QTableWidget;
+import com.trolltech.qt.gui.QTableWidgetItem;
+import com.trolltech.qt.gui.QWidget;
 
-import fr.graal.rpgtournament.Person;
+import fr.graal.rpgtournament.RPGTournamentMngrConstants;
+import fr.graal.rpgtournament.Ui_GameSettings;
+import fr.graal.rpgtournament.Ui_PlayerSettings;
+import fr.graal.rpgtournament.Ui_RPGTournamentManager;
+import fr.graal.rpgtournament.Ui_ResultsPrompt;
+import fr.graal.rpgtournament.Ui_RoundPrompt;
+import fr.graal.rpgtournament.game.Game;
+import fr.graal.rpgtournament.game.Table;
+import fr.graal.rpgtournament.notation.Notation;
+import fr.graal.rpgtournament.player.GMComparator;
+import fr.graal.rpgtournament.player.PCComparator;
+import fr.graal.rpgtournament.player.Person;
+import fr.graal.rpgtournament.print.PrintRound;
+import fr.graal.rpgtournament.tournament.Round;
+import fr.graal.rpgtournament.tournament.TournamentSchedule;
 
 public class RPGTournamentManager extends QMainWindow {
 
@@ -889,7 +908,7 @@ public class RPGTournamentManager extends QMainWindow {
     	
     	PrinterJob printJob = PrinterJob.getPrinterJob ();
 		Book book = new Book ();
-		Vector printInBook = new Vector();
+		List<PrintRound> printInBook = new ArrayList<PrintRound>();
 		Paper papier = new Paper();
 		papier.setImageableArea(0.0, 0.0, papier.getWidth(), papier.getHeight());
 		
@@ -901,7 +920,7 @@ public class RPGTournamentManager extends QMainWindow {
 		//create printing list and add in printing book
 		for (int j=0 ; j < tableList.size(); j++ ) {
 			printInBook.add(new PrintRound (nRound,j,(Table) tableList.get(j)));
-			book.append ((Printable) printInBook.elementAt(j), documentPageFormat);         
+			book.append ((Printable) printInBook.get(j), documentPageFormat);         
 		}
 		  
 		printJob.setPageable (book); 
@@ -921,7 +940,7 @@ public class RPGTournamentManager extends QMainWindow {
     	
     	PrinterJob printJob = PrinterJob.getPrinterJob ();
 		Book book = new Book ();
-		Vector printInBook = new Vector();
+		List<PrintRound> printInBook = new ArrayList<PrintRound>();
 		Paper papier = new Paper();
 		papier.setImageableArea(0.0, 0.0, papier.getWidth(), papier.getHeight());
 		
@@ -933,7 +952,7 @@ public class RPGTournamentManager extends QMainWindow {
 		//create printing list and add in printing book
 		for (int j=0 ; j < tableList.size(); j++ ) {
 			printInBook.add(new PrintRound (nRound,j,(Table) tableList.get(j)));
-			book.append ((Printable) printInBook.elementAt(j), documentPageFormat);         
+			book.append ((Printable) printInBook.get(j), documentPageFormat);         
 		}
 		  
 		printJob.setPageable (book); 
@@ -953,7 +972,7 @@ public class RPGTournamentManager extends QMainWindow {
     	
     	PrinterJob printJob = PrinterJob.getPrinterJob ();
 		Book book = new Book ();
-		Vector printInBook = new Vector();
+		List<PrintRound> printInBook = new ArrayList<PrintRound>();
 		Paper papier = new Paper();
 		papier.setImageableArea(0.0, 0.0, papier.getWidth(), papier.getHeight());
 		
@@ -965,7 +984,7 @@ public class RPGTournamentManager extends QMainWindow {
 		//create printing list and add in printing book
 		for (int j=0 ; j < tableList.size(); j++ ) {
 			printInBook.add(new PrintRound (nRound,j,(Table) tableList.get(j)));
-			book.append ((Printable) printInBook.elementAt(j), documentPageFormat);         
+			book.append ((Printable) printInBook.get(j), documentPageFormat);         
 		}
 		  
 		printJob.setPageable (book); 

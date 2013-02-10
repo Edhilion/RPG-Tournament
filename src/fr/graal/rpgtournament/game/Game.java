@@ -1,4 +1,4 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.game;
 
 import java.io.Serializable;
 import java.io.ObjectOutputStream;

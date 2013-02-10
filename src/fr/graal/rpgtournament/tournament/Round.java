@@ -1,13 +1,11 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.tournament;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Hashtable;
-import java.util.Set;
-import java.io.Serializable;
 
 /**
  * <p>Titre : Tournoi JDR</p>

@@ -1,7 +1,9 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.ui;
 
 import com.trolltech.qt.core.QDate;
 import com.trolltech.qt.gui.*;
+
+import fr.graal.rpgtournament.Ui_PlayerSettings;
 
 public class PlayerSettings extends QDialog {
 

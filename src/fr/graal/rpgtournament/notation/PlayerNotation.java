@@ -1,6 +1,8 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.notation;
 
 import java.util.Hashtable;
+
+import fr.graal.rpgtournament.RPGTournamentMngrConstants;
 
 /**
  * <p>Titre : Tournoi JDR</p>

@@ -1,7 +1,9 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import fr.graal.rpgtournament.player.Person;
 
 /**
  * <p>Titre : Tournoi JDR</p>

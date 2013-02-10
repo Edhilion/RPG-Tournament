@@ -1,4 +1,4 @@
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.player;
 
 import java.util.Map;
 import java.io.Serializable;
@@ -6,6 +6,10 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.text.*;
+
+import fr.graal.rpgtournament.notation.Notation;
+import fr.graal.rpgtournament.notation.PlayerNotation;
+import fr.graal.rpgtournament.tournament.Round;
 
 /**
  * <p>Titre : Tournoi JDR</p>

@@ -1,5 +1,5 @@
 
-package fr.graal.rpgtournament;
+package fr.graal.rpgtournament.print;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import fr.graal.rpgtournament.RPGTournamentMngrConstants;
+import fr.graal.rpgtournament.game.Table;
+import fr.graal.rpgtournament.player.Person;
 
 
 public class PrintRound implements Printable {
