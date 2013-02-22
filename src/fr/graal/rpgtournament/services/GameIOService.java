@@ -19,7 +19,7 @@ public class GameIOService {
 			dayOne = ois.readBoolean();
 			dayTwo = ois.readBoolean();
 			dayThree = ois.readBoolean();
-			index = ois.readInt();
+			index = (Integer) ois.readObject();
 			game = new Game(name, dayOne, dayTwo, dayThree, index);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -34,7 +34,7 @@ public class GameIOService {
 			oos.writeBoolean(game.isDayOne());
 			oos.writeBoolean(game.isDayTwo());
 			oos.writeBoolean(game.isDayThree());
-			oos.writeInt(game.getIndex());
+			oos.writeObject(game.getIndex());
 		} catch (IOException exp) {
 			exp.printStackTrace();
 		}

@@ -5,26 +5,29 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-import fr.graal.rpgtournament.notation.PlayerNotation;
+import fr.graal.rpgtournament.notation.Notation;
 import fr.graal.rpgtournament.player.Player;
-import fr.graal.rpgtournament.tournament.Round;
+import fr.graal.rpgtournament.player.Player.Gender;
+import fr.graal.rpgtournament.tournament.RoundWishes;
 
 public class PlayerIOService {
 
 	@SuppressWarnings("unchecked")
 	public Player readObject(ObjectInputStream ois) {
-		String lastname, firstname, address, postCode, city, phoneNumber, email, clubName, inscriptionDate;
+		String lastname, firstname, nickname, address, postCode, city, phoneNumber, email, clubName, inscriptionDate;
 		int age, yearsOfRPG;
-		boolean sex, keepInTouch, isClubMember, alreadyPaid;
-		Map<Integer, Round> roundList;
-		PlayerNotation notation;
+		boolean keepInTouch, isClubMember, alreadyPaid;
+		Map<Integer, RoundWishes> gameWishes;
+		Map<Integer, Notation> notations;
+		Gender gender;
 		
 		Player player = null;
 		try {
 			lastname = (String) ois.readObject();
 			firstname = (String) ois.readObject();
+			nickname = (String) ois.readObject();
 			age = ois.readInt();
-			sex = ois.readBoolean();
+			gender = (Gender) ois.readObject();
 			address = (String) ois.readObject();
 			postCode = (String) ois.readObject();
 			city = (String) ois.readObject();
@@ -36,10 +39,10 @@ public class PlayerIOService {
 			clubName = (String) ois.readObject();
 			inscriptionDate = (String) ois.readObject();
 			alreadyPaid = ois.readBoolean();
-			roundList = (Map<Integer, Round>) ois.readObject();
-			notation = (PlayerNotation) ois.readObject();
-			player = new Player(lastname, firstname, age, sex, address, postCode, city, phoneNumber, email, keepInTouch, 
-					yearsOfRPG, isClubMember, clubName, inscriptionDate, alreadyPaid, roundList, notation);
+			gameWishes = (Map<Integer, RoundWishes>) ois.readObject();
+			notations = (Map<Integer, Notation>) ois.readObject();
+			player = new Player(lastname, firstname, nickname, age, gender, address, postCode, city, phoneNumber, email, keepInTouch, 
+					yearsOfRPG, isClubMember, clubName, inscriptionDate, alreadyPaid, gameWishes, notations);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -50,9 +53,10 @@ public class PlayerIOService {
 	public void writeObject(ObjectOutputStream oos, Player player) {
 		try {
 			oos.writeObject(player.getLastname());
-			oos.writeObject(player.getFirstName());
+			oos.writeObject(player.getFirstname());
+			oos.writeObject(player.getNickname());
 			oos.writeInt(player.getAge());
-			oos.writeBoolean(player.getSex());
+			oos.writeObject(player.getGender());
 			oos.writeObject(player.getAddress());
 			oos.writeObject(player.getPostCode());
 			oos.writeObject(player.getCity());
@@ -64,8 +68,8 @@ public class PlayerIOService {
 			oos.writeObject(player.getClubName());
 			oos.writeObject(player.getInscriptionDate());
 			oos.writeBoolean(player.hasAlreadyPaid());
-			oos.writeObject(player.getRoundList());
-			oos.writeObject(player.getNotation());
+			oos.writeObject(player.getGameWishes());
+			oos.writeObject(player.getNotations());
 		} catch (IOException exp) {
 			exp.printStackTrace();
 		}

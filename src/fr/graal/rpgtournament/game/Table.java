@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
+import fr.graal.rpgtournament.RPGTournamentMngrConstants;
 import fr.graal.rpgtournament.player.Player;
 
 /**
@@ -14,13 +17,10 @@ import fr.graal.rpgtournament.player.Player;
 
 public class Table implements Serializable {
 	private static final long serialVersionUID = -6280463294080837240L;
-	
-	protected Game game;
-	protected Player master;
-	protected ArrayList<Player> playersList;
 
-	public Table() {
-	}
+	private Game game;
+	private Player master;
+	private ArrayList<Player> playersList;
 
 	public Table(Player master, Game game) {
 		this.game = game;
@@ -59,10 +59,10 @@ public class Table implements Serializable {
 	public boolean isSixPlayer() {
 		return playersList.size() == 6;
 	}
-	
+
 	public boolean containsPlayer(Player p) {
 		int size = playersList.size();
-		for (int i=0; i<size; i++) {
+		for (int i = 0; i < size; i++) {
 			if (playersList.get(i).equals(p)) {
 				return true;
 			}
@@ -72,12 +72,60 @@ public class Table implements Serializable {
 
 	public void removePlayer(Player p) {
 		int size = playersList.size();
-		for (int i=0; i<size; i++) {
-			if (playersList.get(i).equals(p) ) {
+		for (int i = 0; i < size; i++) {
+			if (playersList.get(i).equals(p)) {
 				playersList.remove(i);
 			}
 		}
+	}
+
+	private String getTitleForDisplay(int tableNumber) {
+		StringBuilder asString = new StringBuilder();
+		asString.append(RPGTournamentMngrConstants.Texts.getString("Table"))
+				.append(" ")
+				.append(tableNumber)
+				.append("    -    ")
+				.append(game);
+		return asString.toString();
+	}
+
+	private String getMasterForDisplay() {
+		StringBuilder asString = new StringBuilder();
+		asString.append(RPGTournamentMngrConstants.Texts.getString("Master"))
+				.append(" : ")
+				.append(master.getFullName());
+		return asString.toString();
+	}
+
+	private String getPlayersForDisplay() {
+		StringBuilder asString = new StringBuilder();
+		asString.append(RPGTournamentMngrConstants.Texts.getString("Players"))
+				.append("\n")
+				.append(playerListToString());
+		return asString.toString();
+	}
+
+	public String asString(int number) {
+		StringBuilder asString = new StringBuilder();
+		asString.append(getTitleForDisplay(number)).append("\n")
+				.append(getMasterForDisplay()).append("\n")
+				.append(getPlayersForDisplay()).append("\n");
+		return asString.toString();
+	}
+
+	private String playerListToString() {
+		String returnedString = "";
+		if (CollectionUtils.isNotEmpty(playersList)) {
+			for (Player player : playersList) {
+				returnedString = returnedString + "     -"
+						+ player.getFullName() + "\n";
+			}
+		} else {
+			returnedString = "     "
+					+ RPGTournamentMngrConstants.Texts.getString("NoPlayer")
+					+ "\n";
 		}
-	
+		return returnedString;
+	}
+
 }
-  

@@ -1,9 +1,14 @@
 package fr.graal.rpgtournament.ui;
 
 import com.trolltech.qt.core.QDate;
-import com.trolltech.qt.gui.*;
-
-import fr.graal.rpgtournament.Ui_PlayerSettings;
+import com.trolltech.qt.gui.QCheckBox;
+import com.trolltech.qt.gui.QDateEdit;
+import com.trolltech.qt.gui.QDialog;
+import com.trolltech.qt.gui.QGridLayout;
+import com.trolltech.qt.gui.QGroupBox;
+import com.trolltech.qt.gui.QLabel;
+import com.trolltech.qt.gui.QLineEdit;
+import com.trolltech.qt.gui.QWidget;
 
 public class PlayerSettings extends QDialog {
 

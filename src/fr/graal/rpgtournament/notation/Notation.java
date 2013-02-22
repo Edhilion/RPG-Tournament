@@ -5,53 +5,59 @@ import java.io.Serializable;
 import fr.graal.rpgtournament.game.Game;
 
 /**
- * <p>Titre : Tournoi JDR</p>
- * <p>Description : </p>
- * <p>Copyright : Copyright (c) 2003</p>
- * <p>Société : </p>
  * @author VAN DE BOR Eric
- * @version 1.0
+ * @author Sébastien VICARD
+ * @version 1.1
  */
 
 public class Notation implements Serializable {
-
-  /**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 225001396050012288L;
-	
-	
-public static final String PLAYER = "PJ";
-public static final String GAME_MASTER = "MJ";
-  
-  private String type;
-  private int note;
-  private Game game;
 
-  public Notation() {
-    setType(PLAYER);
-    setNote(0);
-  }
+	public static final String PLAYER = "PJ";
+	public static final String GAME_MASTER = "MJ";
 
-  public Notation(String type, int note, Game game) {
-    setType(type);
-    setNote(note);
-    setGame(game);
-  }
+	public static final Notation DEFAULT_PLAYER_NOTATION = new Notation(PLAYER, null, null);
+	public static final Notation DEFAULT_GM_NOTATION = new Notation(GAME_MASTER, null, null);
+	
+	public static final Integer DEFAULT_NOTE = -1;
+
+	private String type;
+	private Integer note;
+	private Game game;
+
+	public Notation() {
+		setType(PLAYER);
+		setNote(DEFAULT_NOTE);
+	}
+
+	public Notation(String type, Integer note, Game game) {
+		setType(type);
+		setNote(note);
+		setGame(game);
+	}
+	
+	public static Notation newGameMasterNotation(Integer note, Game game) {
+		return new Notation(GAME_MASTER, note, game);
+	}
+	
+	public static Notation newPlayerNotation(Integer note, Game game) {
+		return new Notation(PLAYER, note, game);
+	}
 
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
-	
-	public void setNote(int note) {
+
+	public void setNote(Integer note) {
 		this.note = note;
 	}
-	
-	public int getNote() {
+
+	public Integer getNote() {
 		return note;
 	}
 

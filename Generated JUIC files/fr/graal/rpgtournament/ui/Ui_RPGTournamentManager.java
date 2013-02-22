@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'RPGTournamentManager.jui'
 **
-** Created: dim. 10. févr. 14:35:21 2013
+** Created: mer. 20. févr. 00:08:30 2013
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -467,7 +467,7 @@ public class Ui_RPGTournamentManager implements com.trolltech.qt.QUiForm<QMainWi
         actionUpdateSundayGames.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "updateSundayGames", null));
         actionUpdatePlayer.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "updatePlayer", null));
         allPlayersTableWidget.clear();
-        allPlayersTableWidget.setColumnCount(7);
+        allPlayersTableWidget.setColumnCount(8);
 
         QTableWidgetItem __colItem = new QTableWidgetItem();
         __colItem.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Last Name", null));
@@ -478,98 +478,62 @@ public class Ui_RPGTournamentManager implements com.trolltech.qt.QUiForm<QMainWi
         allPlayersTableWidget.setHorizontalHeaderItem(1, __colItem1);
 
         QTableWidgetItem __colItem2 = new QTableWidgetItem();
-        __colItem2.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
+        __colItem2.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Nickname", null));
         allPlayersTableWidget.setHorizontalHeaderItem(2, __colItem2);
 
         QTableWidgetItem __colItem3 = new QTableWidgetItem();
-        __colItem3.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
+        __colItem3.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
         allPlayersTableWidget.setHorizontalHeaderItem(3, __colItem3);
 
         QTableWidgetItem __colItem4 = new QTableWidgetItem();
-        __colItem4.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Note", null));
+        __colItem4.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
         allPlayersTableWidget.setHorizontalHeaderItem(4, __colItem4);
 
         QTableWidgetItem __colItem5 = new QTableWidgetItem();
-        __colItem5.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Type", null));
+        __colItem5.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Classement", null));
         allPlayersTableWidget.setHorizontalHeaderItem(5, __colItem5);
 
         QTableWidgetItem __colItem6 = new QTableWidgetItem();
-        __colItem6.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Paid", null));
+        __colItem6.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Type", null));
         allPlayersTableWidget.setHorizontalHeaderItem(6, __colItem6);
+
+        QTableWidgetItem __colItem7 = new QTableWidgetItem();
+        __colItem7.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Paid", null));
+        allPlayersTableWidget.setHorizontalHeaderItem(7, __colItem7);
         allPlayersTableWidget.setRowCount(0);
         mainTabWidget.setTabText(mainTabWidget.indexOf(tab), com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Tous les jours", null));
         groupBox.setTitle(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Players", null));
         fridayTableWidget.clear();
         fridayTableWidget.setColumnCount(4);
 
-        QTableWidgetItem __colItem7 = new QTableWidgetItem();
-        __colItem7.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Last Name", null));
-        fridayTableWidget.setHorizontalHeaderItem(0, __colItem7);
-
         QTableWidgetItem __colItem8 = new QTableWidgetItem();
-        __colItem8.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "First Name", null));
-        fridayTableWidget.setHorizontalHeaderItem(1, __colItem8);
+        __colItem8.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Last Name", null));
+        fridayTableWidget.setHorizontalHeaderItem(0, __colItem8);
 
         QTableWidgetItem __colItem9 = new QTableWidgetItem();
-        __colItem9.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Note", null));
-        fridayTableWidget.setHorizontalHeaderItem(2, __colItem9);
+        __colItem9.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "First Name", null));
+        fridayTableWidget.setHorizontalHeaderItem(1, __colItem9);
 
         QTableWidgetItem __colItem10 = new QTableWidgetItem();
-        __colItem10.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Game", null));
-        fridayTableWidget.setHorizontalHeaderItem(3, __colItem10);
+        __colItem10.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Note", null));
+        fridayTableWidget.setHorizontalHeaderItem(2, __colItem10);
+
+        QTableWidgetItem __colItem11 = new QTableWidgetItem();
+        __colItem11.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Game", null));
+        fridayTableWidget.setHorizontalHeaderItem(3, __colItem11);
         fridayTableWidget.setRowCount(0);
         groupBox_6.setTitle(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "GroupBox", null));
         fridayGamesTableWidget.clear();
         fridayGamesTableWidget.setColumnCount(2);
 
-        QTableWidgetItem __colItem11 = new QTableWidgetItem();
-        __colItem11.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
-        fridayGamesTableWidget.setHorizontalHeaderItem(0, __colItem11);
-
         QTableWidgetItem __colItem12 = new QTableWidgetItem();
-        __colItem12.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
-        fridayGamesTableWidget.setHorizontalHeaderItem(1, __colItem12);
-        fridayGamesTableWidget.setRowCount(8);
+        __colItem12.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
+        fridayGamesTableWidget.setHorizontalHeaderItem(0, __colItem12);
 
-        QTableWidgetItem __rowItem = new QTableWidgetItem();
-        __rowItem.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Yggdrasill", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(0, __rowItem);
-
-        QTableWidgetItem __rowItem1 = new QTableWidgetItem();
-        __rowItem1.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Crimes", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(1, __rowItem1);
-
-        QTableWidgetItem __rowItem2 = new QTableWidgetItem();
-        __rowItem2.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "B.I.A.", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(2, __rowItem2);
-
-        QTableWidgetItem __rowItem3 = new QTableWidgetItem();
-        __rowItem3.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "ShadowRun", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(3, __rowItem3);
-
-        QTableWidgetItem __rowItem4 = new QTableWidgetItem();
-        __rowItem4.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Mind Dagger", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(4, __rowItem4);
-
-        QTableWidgetItem __rowItem5 = new QTableWidgetItem();
-        __rowItem5.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Jeu surprise", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(5, __rowItem5);
-
-        QTableWidgetItem __rowItem6 = new QTableWidgetItem();
-        __rowItem6.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Ombres d'Esteren", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(6, __rowItem6);
-
-        QTableWidgetItem __rowItem7 = new QTableWidgetItem();
-        __rowItem7.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Tenga", null));
-        fridayGamesTableWidget.setVerticalHeaderItem(7, __rowItem7);
-
-        QTableWidgetItem __item = new QTableWidgetItem();
-        __item.setText("");
-        fridayGamesTableWidget.setItem(2, 0, __item);
-
-        QTableWidgetItem __item1 = new QTableWidgetItem();
-        __item1.setText("");
-        fridayGamesTableWidget.setItem(2, 1, __item1);
+        QTableWidgetItem __colItem13 = new QTableWidgetItem();
+        __colItem13.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
+        fridayGamesTableWidget.setHorizontalHeaderItem(1, __colItem13);
+        fridayGamesTableWidget.setRowCount(0);
         label_7.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Total", null));
         label_8.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
         label_9.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
@@ -578,74 +542,34 @@ public class Ui_RPGTournamentManager implements com.trolltech.qt.QUiForm<QMainWi
         saturdayTableWidget.clear();
         saturdayTableWidget.setColumnCount(4);
 
-        QTableWidgetItem __colItem13 = new QTableWidgetItem();
-        __colItem13.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Last Name", null));
-        saturdayTableWidget.setHorizontalHeaderItem(0, __colItem13);
-
         QTableWidgetItem __colItem14 = new QTableWidgetItem();
-        __colItem14.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "First Name", null));
-        saturdayTableWidget.setHorizontalHeaderItem(1, __colItem14);
+        __colItem14.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Last Name", null));
+        saturdayTableWidget.setHorizontalHeaderItem(0, __colItem14);
 
         QTableWidgetItem __colItem15 = new QTableWidgetItem();
-        __colItem15.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Note", null));
-        saturdayTableWidget.setHorizontalHeaderItem(2, __colItem15);
+        __colItem15.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "First Name", null));
+        saturdayTableWidget.setHorizontalHeaderItem(1, __colItem15);
 
         QTableWidgetItem __colItem16 = new QTableWidgetItem();
-        __colItem16.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Game", null));
-        saturdayTableWidget.setHorizontalHeaderItem(3, __colItem16);
+        __colItem16.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Note", null));
+        saturdayTableWidget.setHorizontalHeaderItem(2, __colItem16);
+
+        QTableWidgetItem __colItem17 = new QTableWidgetItem();
+        __colItem17.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Game", null));
+        saturdayTableWidget.setHorizontalHeaderItem(3, __colItem17);
         saturdayTableWidget.setRowCount(0);
         groupBox_5.setTitle(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "GroupBox", null));
         saturdayGamesTableWidget.clear();
         saturdayGamesTableWidget.setColumnCount(2);
 
-        QTableWidgetItem __colItem17 = new QTableWidgetItem();
-        __colItem17.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
-        saturdayGamesTableWidget.setHorizontalHeaderItem(0, __colItem17);
-
         QTableWidgetItem __colItem18 = new QTableWidgetItem();
-        __colItem18.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
-        saturdayGamesTableWidget.setHorizontalHeaderItem(1, __colItem18);
-        saturdayGamesTableWidget.setRowCount(8);
+        __colItem18.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
+        saturdayGamesTableWidget.setHorizontalHeaderItem(0, __colItem18);
 
-        QTableWidgetItem __rowItem8 = new QTableWidgetItem();
-        __rowItem8.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Oikoum\u00e9n\u00e8", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(0, __rowItem8);
-
-        QTableWidgetItem __rowItem9 = new QTableWidgetItem();
-        __rowItem9.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Warhammer", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(1, __rowItem9);
-
-        QTableWidgetItem __rowItem10 = new QTableWidgetItem();
-        __rowItem10.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Appel de Cthulhu", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(2, __rowItem10);
-
-        QTableWidgetItem __rowItem11 = new QTableWidgetItem();
-        __rowItem11.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Metal Adventures", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(3, __rowItem11);
-
-        QTableWidgetItem __rowItem12 = new QTableWidgetItem();
-        __rowItem12.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Jeu surprise", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(4, __rowItem12);
-
-        QTableWidgetItem __rowItem13 = new QTableWidgetItem();
-        __rowItem13.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Mind Dagger", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(5, __rowItem13);
-
-        QTableWidgetItem __rowItem14 = new QTableWidgetItem();
-        __rowItem14.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Ombres d'Esteren", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(6, __rowItem14);
-
-        QTableWidgetItem __rowItem15 = new QTableWidgetItem();
-        __rowItem15.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Tenga", null));
-        saturdayGamesTableWidget.setVerticalHeaderItem(7, __rowItem15);
-
-        QTableWidgetItem __item2 = new QTableWidgetItem();
-        __item2.setText("");
-        saturdayGamesTableWidget.setItem(2, 0, __item2);
-
-        QTableWidgetItem __item3 = new QTableWidgetItem();
-        __item3.setText("");
-        saturdayGamesTableWidget.setItem(2, 1, __item3);
+        QTableWidgetItem __colItem19 = new QTableWidgetItem();
+        __colItem19.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
+        saturdayGamesTableWidget.setHorizontalHeaderItem(1, __colItem19);
+        saturdayGamesTableWidget.setRowCount(0);
         label_4.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Total", null));
         label_5.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
         label_6.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
@@ -654,82 +578,34 @@ public class Ui_RPGTournamentManager implements com.trolltech.qt.QUiForm<QMainWi
         sundayTableWidget.clear();
         sundayTableWidget.setColumnCount(4);
 
-        QTableWidgetItem __colItem19 = new QTableWidgetItem();
-        __colItem19.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Last Name", null));
-        sundayTableWidget.setHorizontalHeaderItem(0, __colItem19);
-
         QTableWidgetItem __colItem20 = new QTableWidgetItem();
-        __colItem20.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "First Name", null));
-        sundayTableWidget.setHorizontalHeaderItem(1, __colItem20);
+        __colItem20.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Last Name", null));
+        sundayTableWidget.setHorizontalHeaderItem(0, __colItem20);
 
         QTableWidgetItem __colItem21 = new QTableWidgetItem();
-        __colItem21.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Note", null));
-        sundayTableWidget.setHorizontalHeaderItem(2, __colItem21);
+        __colItem21.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "First Name", null));
+        sundayTableWidget.setHorizontalHeaderItem(1, __colItem21);
 
         QTableWidgetItem __colItem22 = new QTableWidgetItem();
-        __colItem22.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Game", null));
-        sundayTableWidget.setHorizontalHeaderItem(3, __colItem22);
+        __colItem22.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Note", null));
+        sundayTableWidget.setHorizontalHeaderItem(2, __colItem22);
+
+        QTableWidgetItem __colItem23 = new QTableWidgetItem();
+        __colItem23.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Game", null));
+        sundayTableWidget.setHorizontalHeaderItem(3, __colItem23);
         sundayTableWidget.setRowCount(0);
         groupBox_4.setTitle(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "GroupBox", null));
         sundayGamesTableWidget.clear();
         sundayGamesTableWidget.setColumnCount(2);
 
-        QTableWidgetItem __colItem23 = new QTableWidgetItem();
-        __colItem23.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
-        sundayGamesTableWidget.setHorizontalHeaderItem(0, __colItem23);
-
         QTableWidgetItem __colItem24 = new QTableWidgetItem();
-        __colItem24.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
-        sundayGamesTableWidget.setHorizontalHeaderItem(1, __colItem24);
-        sundayGamesTableWidget.setRowCount(10);
+        __colItem24.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
+        sundayGamesTableWidget.setHorizontalHeaderItem(0, __colItem24);
 
-        QTableWidgetItem __rowItem16 = new QTableWidgetItem();
-        __rowItem16.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Donjons et Dragons 4", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(0, __rowItem16);
-
-        QTableWidgetItem __rowItem17 = new QTableWidgetItem();
-        __rowItem17.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Pathfinder", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(1, __rowItem17);
-
-        QTableWidgetItem __rowItem18 = new QTableWidgetItem();
-        __rowItem18.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Capharna\u00fcm", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(2, __rowItem18);
-
-        QTableWidgetItem __rowItem19 = new QTableWidgetItem();
-        __rowItem19.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Hellywood", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(3, __rowItem19);
-
-        QTableWidgetItem __rowItem20 = new QTableWidgetItem();
-        __rowItem20.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Dark Heresy", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(4, __rowItem20);
-
-        QTableWidgetItem __rowItem21 = new QTableWidgetItem();
-        __rowItem21.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Rogue Trader", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(5, __rowItem21);
-
-        QTableWidgetItem __rowItem22 = new QTableWidgetItem();
-        __rowItem22.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Jeu surprise", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(6, __rowItem22);
-
-        QTableWidgetItem __rowItem23 = new QTableWidgetItem();
-        __rowItem23.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Mind Dagger", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(7, __rowItem23);
-
-        QTableWidgetItem __rowItem24 = new QTableWidgetItem();
-        __rowItem24.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Ombres d'Esteren", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(8, __rowItem24);
-
-        QTableWidgetItem __rowItem25 = new QTableWidgetItem();
-        __rowItem25.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Tenga", null));
-        sundayGamesTableWidget.setVerticalHeaderItem(9, __rowItem25);
-
-        QTableWidgetItem __item4 = new QTableWidgetItem();
-        __item4.setText("");
-        sundayGamesTableWidget.setItem(2, 0, __item4);
-
-        QTableWidgetItem __item5 = new QTableWidgetItem();
-        __item5.setText("");
-        sundayGamesTableWidget.setItem(2, 1, __item5);
+        QTableWidgetItem __colItem25 = new QTableWidgetItem();
+        __colItem25.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));
+        sundayGamesTableWidget.setHorizontalHeaderItem(1, __colItem25);
+        sundayGamesTableWidget.setRowCount(0);
         label.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "Total", null));
         label_2.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "MJ", null));
         label_3.setText(com.trolltech.qt.core.QCoreApplication.translate("RPGTournamentManager", "PJ", null));

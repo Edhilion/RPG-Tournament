@@ -48,6 +48,14 @@
           </column>
           <column>
            <property name="text">
+            <string>Nickname</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>MJ</string>
            </property>
            <property name="textAlignment">
@@ -783,8 +791,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>686</x>
-     <y>298</y>
+     <x>784</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -799,8 +807,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>686</x>
-     <y>298</y>
+     <x>809</x>
+     <y>209</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -831,8 +839,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>347</y>
+     <x>177</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -847,8 +855,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>347</y>
+     <x>202</x>
+     <y>209</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -879,8 +887,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>347</y>
+     <x>177</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -895,8 +903,8 @@
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>347</y>
+     <x>202</x>
+     <y>209</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

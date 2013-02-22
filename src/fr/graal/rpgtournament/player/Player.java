@@ -1,15 +1,20 @@
 package fr.graal.rpgtournament.player;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.base.Objects;
+
+import fr.graal.rpgtournament.game.Game;
 import fr.graal.rpgtournament.notation.Notation;
-import fr.graal.rpgtournament.notation.PlayerNotation;
-import fr.graal.rpgtournament.tournament.Round;
+import fr.graal.rpgtournament.tournament.RoundWishes;
 
 /**
  * @author Eric VAN DE BOR
@@ -21,12 +26,17 @@ public class Player implements Serializable, Comparable<Player> {
 
 	private static final DateFormat df = DateFormat
 			.getDateInstance(DateFormat.SHORT);
-	
+
+	public enum Gender {
+		FEMALE, MALE
+	};
+
 	private static final long serialVersionUID = -6600900997440902409L;
 	private String lastname;
 	private String firstname;
+	private String nickname;
+	private Gender gender;
 	private int age;
-	private boolean sex;
 	private String address;
 	private String postCode;
 	private String city;
@@ -42,23 +52,33 @@ public class Player implements Serializable, Comparable<Player> {
 	private String inscriptionDate;
 	private boolean alreadyPaid;
 
-	private Map<Integer, Round> roundList;
+	private Map<Integer, RoundWishes> gameWishes;
 
-	private PlayerNotation notation;
-
+	private Map<Integer, Notation> notations;
+	
 	public Player(String lastname, String firstname) {
-		this.lastname = checkNotNull(lastname);
-		this.firstname = checkNotNull(firstname);
+		checkArgument(StringUtils.isNotBlank(lastname),
+				"Lastname (as firstname) is mandatory");
+		checkArgument(StringUtils.isNotBlank(firstname),
+				"Firstname (as lastname) is mandatory");
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.gameWishes = new HashMap<Integer, RoundWishes>();
+		this.notations = new HashMap<Integer, Notation>();
+	}
+	
+	public Player (String lastname, String firstname, String nickname) {
+		this(lastname, firstname);
+		this.nickname = nickname;
 	}
 
-	public Player(String lastname, String firstname, int age, boolean sex,
+	public Player(String lastname, String firstname, String nickname, int age, Gender gender,
 			String adress, String postCode, String city, String phoneNumber,
 			String emailAdress, boolean keptInTouch, int yearsOfRPG,
 			boolean isClubMember, String clubName, String inscriptionDate,
-			boolean alreadyPaid, Map<Integer, Round> roundList) {
-		this(lastname, firstname);
+			boolean alreadyPaid, Map<Integer, RoundWishes> roundList) {
+		this(lastname, firstname, nickname);
 		this.age = age;
-		this.sex = sex;
 		this.address = adress;
 		this.postCode = postCode;
 		this.city = city;
@@ -70,83 +90,103 @@ public class Player implements Serializable, Comparable<Player> {
 		this.clubName = clubName;
 		this.inscriptionDate = inscriptionDate;
 		this.alreadyPaid = alreadyPaid;
-		this.roundList = roundList;
+		this.gameWishes = roundList;
 
 	}
 
-	public Player(String lastname, String firstname, int age, boolean sex,
+	public Player(String lastname, String firstname, String nickname, int age, Gender gender,
 			String adress, String postCode, String city, String phoneNumber,
 			String emailAdress, boolean keptInTouch, int yearsOfRPG,
 			boolean isClubMember, String clubName, String inscriptionDate,
-			boolean alreadyPaid, Map<Integer, Round> roundList,
-			PlayerNotation notation) {
-		this(lastname, firstname, age, sex, adress, postCode, city, phoneNumber,
-				emailAdress, keptInTouch, yearsOfRPG, isClubMember, clubName,
-				inscriptionDate, alreadyPaid, roundList);
-		this.notation = notation;
+			boolean alreadyPaid, Map<Integer, RoundWishes> roundList,
+			Map<Integer, Notation> notations) {
+		this(lastname, firstname, nickname, age, gender, adress, postCode, city,
+				phoneNumber, emailAdress, keptInTouch, yearsOfRPG,
+				isClubMember, clubName, inscriptionDate, alreadyPaid, roundList);
+		this.notations = notations;
 	}
 
-	public Notation getPlayerNote() {
-		Notation maxNote = new Notation();
-		for (int i = 1; i <= notation.size(); i++) {
-			Notation rdNote = notation.getNotation(i);
-			if (rdNote.getNote() > maxNote.getNote())
-				maxNote = rdNote;
+	public Notation getPlayerFinalNoteAsPC() {
+		Notation maxNotation = Notation.DEFAULT_PLAYER_NOTATION;
+		for(Notation notation : notations.values()) {
+			if (notation.getNote() > maxNotation.getNote()
+					&& notation.getType().equals(Notation.PLAYER)) {
+				maxNotation = notation;
+			}
+		}		
+		return maxNotation;
+	}
+
+	public Notation getPlayerFinalNoteAsGM() {
+		Notation maxNotation = Notation.DEFAULT_GM_NOTATION;
+		for(Notation notation : notations.values()) {
+			if (notation.getNote() > maxNotation.getNote()
+					&& notation.getType().equals(Notation.GAME_MASTER)) {
+				maxNotation = notation;
+			}
+		}		
+		return maxNotation;
+	}
+	
+	public int getRoundNote(int roundNumber) {
+		Notation roundNotation = notations.get(roundNumber);
+		int note = 0;
+		if (roundNotation != null) {
+			note = roundNotation.getNote();
 		}
-		return maxNote;
+		return note;
 	}
-
-	public Notation getPlayerNoteAsPC() {
-		Notation maxPCNote = new Notation();
-		for (int i = 1; i <= notation.size(); i++) {
-			Notation rdNote = notation.getNotation(i);
-			if (rdNote.getNote() > maxPCNote.getNote()
-					&& rdNote.getType().equals(Notation.PLAYER))
-				maxPCNote = rdNote;
+	
+	public String getRoundNoteAsString(int roundNumber) {
+		Notation roundNotation = notations.get(roundNumber);
+		String note = "-";
+		if (roundNotation != null) {
+			note = Integer.toString(roundNotation.getNote());
 		}
-		return maxPCNote;
+		return note;
 	}
-
-	public Notation getPlayerNoteAsGM() {
-		Notation maxGMNote = new Notation();
-		for (int i = 1; i <= notation.size(); i++) {
-			Notation rdNote = notation.getNotation(i);
-			if (rdNote.getNote() > maxGMNote.getNote()
-					&& rdNote.getType().equals(Notation.GAME_MASTER))
-				maxGMNote = rdNote;
+	
+	public String getRoundGameName(int roundNumber) {
+		Notation roundNotation = notations.get(roundNumber);
+		String game = "-";
+		if (roundNotation != null) {
+			game = roundNotation.getGame().getName();
 		}
-		return maxGMNote;
+		return game;
 	}
 
-	public boolean equals(String name, String firstName) {
-		if (this.lastname.equalsIgnoreCase(name)
-				&& this.firstname.equalsIgnoreCase(firstName)) {
-			return true;
-		} else {
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-	}
-
-	public boolean equals(Player p) {
-		if (this.lastname.equalsIgnoreCase(p.getLastname())
-				&& this.firstname.equalsIgnoreCase(p.getFirstName())) {
-			return true;
+		if (getClass() != obj.getClass()) {
+			return false;
 		}
-		return false;
+		final Player other = (Player) obj;
+		return this.lastname.equalsIgnoreCase(other.lastname.toLowerCase())
+				&& this.firstname.equalsIgnoreCase(other.firstname.toLowerCase())
+				&& (StringUtils.equalsIgnoreCase(this.nickname, other.nickname)
+						|| (StringUtils.isBlank(this.nickname) && StringUtils.isBlank(other.nickname)));
 	}
 
-	public int compareTo(Player o) {
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.lastname.toLowerCase(), this.firstname.toLowerCase(), this.nickname);
+	}
+
+	public int compareTo(Player player) {
 		try {
 			if ((this.inscriptionDate.equals(""))
-					&& (((Player) o).getInscriptionDate()).equals("")) {
+					&& (player.getInscriptionDate()).equals("")) {
 				return 0;
 			} else if (this.inscriptionDate.equals("")) {
 				return 1;
-			} else if (((Player) o).getInscriptionDate().equals("")) {
+			} else if (player.getInscriptionDate().equals("")) {
 				return -1;
 			} else {
 				return (df.parse(this.inscriptionDate).compareTo(df
-						.parse(((Player) o).getInscriptionDate())));
+						.parse(player.getInscriptionDate())));
 			}
 		} catch (ParseException ex) {
 			System.out.println("EXCEPTION");
@@ -155,33 +195,39 @@ public class Player implements Serializable, Comparable<Player> {
 		}
 	}
 
-	public boolean isRoundExist(int roundNbr) {
-		if (roundList.get(new Integer(roundNbr)) == null) {
-			return false;
-		} else {
-			return true;
-		}
+	public boolean isPlayingInRound(int roundNumber) {
+		return gameWishes.containsKey(roundNumber);
 	}
 
-	public String toString() {
-		return this.getLastname() + " " + this.getFirstName();
+	public String getFullName() {
+		return this.getLastname() + " " + this.getFirstname();
 	}
 	
+	public void setGameForRound(int roundNumber, Game game) {
+		notations.put(roundNumber, Notation.newGameMasterNotation(Notation.DEFAULT_NOTE, game));
+	}
+	
+	
+
 	// GETTERS - SETTERS
 	public String getLastname() {
 		return this.lastname;
 	}
 
-	public String getFirstName() {
+	public String getFirstname() {
 		return this.firstname;
+	}
+
+	public String getNickname() {
+		return this.nickname;
+	}
+
+	public Gender getGender() {
+		return this.gender;
 	}
 
 	public int getAge() {
 		return this.age;
-	}
-
-	public boolean getSex() {
-		return this.sex;
 	}
 
 	public String getAddress() {
@@ -228,13 +274,18 @@ public class Player implements Serializable, Comparable<Player> {
 		return this.alreadyPaid;
 	}
 
-	public Map<Integer, Round> getRoundList() {
-		return this.roundList;
+	public Map<Integer, RoundWishes> getGameWishes() {
+		return this.gameWishes;
 	}
 
-	public PlayerNotation getNotation() {
-		return notation;
+	public Map<Integer, Notation> getNotations() {
+		return notations;
 	}
+	
+	public boolean isMale() {
+		return gender != null ? gender.equals(Gender.MALE) : true;
+	}
+	
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
@@ -244,12 +295,16 @@ public class Player implements Serializable, Comparable<Player> {
 		this.firstname = firstname;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
-	public void setSex(boolean sex) {
-		this.sex = sex;
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public void setAddress(String address) {
@@ -296,12 +351,12 @@ public class Player implements Serializable, Comparable<Player> {
 		this.alreadyPaid = alreadyPaid;
 	}
 
-	public void setRoundList(Map<Integer, Round> roundList) {
-		this.roundList = roundList;
+	public void setGameWishes(Map<Integer, RoundWishes> gameWishes) {
+		this.gameWishes = gameWishes;
 	}
 
-	public void setNotation(PlayerNotation notation) {
-		this.notation = notation;
+	public void setNotations(Map<Integer, Notation> notations) {
+		this.notations = notations;
 	}
 
 }

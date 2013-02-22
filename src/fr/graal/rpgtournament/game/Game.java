@@ -93,6 +93,15 @@ public class Game implements Serializable, Comparable<Game> {
 	}
 
 	public int compareTo(Game game) {
-		return this.index.compareTo(game.getIndex());
+		if (game == null) {
+			return -1;
+		} else {
+			return this.index.compareTo(game.getIndex());
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }

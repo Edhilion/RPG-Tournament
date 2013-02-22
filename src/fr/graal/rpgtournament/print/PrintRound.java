@@ -53,7 +53,7 @@ public class PrintRound implements Printable {
 		Font f4 = new Font("courier",Font.BOLD,20);
 		sMasterLab.setFont(f4);
 		
-		JLabel sMaster = new JLabel(((Player)table.getMaster()).getLastname() +" "+ ((Player)table.getMaster()).getFirstName());
+		JLabel sMaster = new JLabel(((Player)table.getMaster()).getLastname() +" "+ ((Player)table.getMaster()).getFirstname());
 		Font f5 = new Font("courier",Font.BOLD,30);
 		sMaster.setFont(f5);
 		
@@ -77,7 +77,7 @@ public class PrintRound implements Printable {
 		Font fPlayer = new Font("courier",Font.BOLD,30);
 		for (int i = 0 ; i < ((ArrayList<Player>)table.getPlayerList()).size() ; i++) {
 			
-			labelPlayersList.add(new JLabel((i+1)+"- "+((Player)((ArrayList<Player>)table.getPlayerList()).get(i)).getLastname() + " " + ((Player)((ArrayList<Player>)table.getPlayerList()).get(i)).getFirstName()));
+			labelPlayersList.add(new JLabel((i+1)+"- "+((Player)((ArrayList<Player>)table.getPlayerList()).get(i)).getLastname() + " " + ((Player)((ArrayList<Player>)table.getPlayerList()).get(i)).getFirstname()));
 			labelPlayersList.get(i).setFont(fPlayer);
 			
 			panel.add(labelPlayersList.get(i), new GridBagConstraints(0,i+6, 2, 1, 0, 0, GridBagConstraints.NORTHWEST,

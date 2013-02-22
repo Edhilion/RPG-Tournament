@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'PlayersSettings.jui'
 **
-** Created: dim. 10. févr. 14:35:21 2013
+** Created: ven. 22. févr. 22:13:34 2013
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -391,47 +391,7 @@ public class Ui_PlayerSettings implements com.trolltech.qt.QUiForm<QDialog>
         QTableWidgetItem __colItem1 = new QTableWidgetItem();
         __colItem1.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "PJ", null));
         tableWidget0.setHorizontalHeaderItem(1, __colItem1);
-        tableWidget0.setRowCount(8);
-
-        QTableWidgetItem __rowItem = new QTableWidgetItem();
-        __rowItem.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Crimes", null));
-        tableWidget0.setVerticalHeaderItem(0, __rowItem);
-
-        QTableWidgetItem __rowItem1 = new QTableWidgetItem();
-        __rowItem1.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Yggdrasill", null));
-        tableWidget0.setVerticalHeaderItem(1, __rowItem1);
-
-        QTableWidgetItem __rowItem2 = new QTableWidgetItem();
-        __rowItem2.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "B.I.A.", null));
-        tableWidget0.setVerticalHeaderItem(2, __rowItem2);
-
-        QTableWidgetItem __rowItem3 = new QTableWidgetItem();
-        __rowItem3.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "ShadowRun", null));
-        tableWidget0.setVerticalHeaderItem(3, __rowItem3);
-
-        QTableWidgetItem __rowItem4 = new QTableWidgetItem();
-        __rowItem4.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Jeu surprise", null));
-        tableWidget0.setVerticalHeaderItem(4, __rowItem4);
-
-        QTableWidgetItem __rowItem5 = new QTableWidgetItem();
-        __rowItem5.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Mind Dagger", null));
-        tableWidget0.setVerticalHeaderItem(5, __rowItem5);
-
-        QTableWidgetItem __rowItem6 = new QTableWidgetItem();
-        __rowItem6.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Ombres d'Esteren", null));
-        tableWidget0.setVerticalHeaderItem(6, __rowItem6);
-
-        QTableWidgetItem __rowItem7 = new QTableWidgetItem();
-        __rowItem7.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Tenga", null));
-        tableWidget0.setVerticalHeaderItem(7, __rowItem7);
-
-        QTableWidgetItem __item = new QTableWidgetItem();
-        __item.setText("");
-        tableWidget0.setItem(2, 0, __item);
-
-        QTableWidgetItem __item1 = new QTableWidgetItem();
-        __item1.setText("");
-        tableWidget0.setItem(2, 1, __item1);
+        tableWidget0.setRowCount(0);
         gamesTabWidget.setTabText(gamesTabWidget.indexOf(tab), com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Friday", null));
         tableWidget1.clear();
         tableWidget1.setColumnCount(2);
@@ -443,39 +403,7 @@ public class Ui_PlayerSettings implements com.trolltech.qt.QUiForm<QDialog>
         QTableWidgetItem __colItem3 = new QTableWidgetItem();
         __colItem3.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "PJ", null));
         tableWidget1.setHorizontalHeaderItem(1, __colItem3);
-        tableWidget1.setRowCount(8);
-
-        QTableWidgetItem __rowItem8 = new QTableWidgetItem();
-        __rowItem8.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Oikoum\u00e9n\u00e8", null));
-        tableWidget1.setVerticalHeaderItem(0, __rowItem8);
-
-        QTableWidgetItem __rowItem9 = new QTableWidgetItem();
-        __rowItem9.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Warhammer", null));
-        tableWidget1.setVerticalHeaderItem(1, __rowItem9);
-
-        QTableWidgetItem __rowItem10 = new QTableWidgetItem();
-        __rowItem10.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Appel de Cthulhu", null));
-        tableWidget1.setVerticalHeaderItem(2, __rowItem10);
-
-        QTableWidgetItem __rowItem11 = new QTableWidgetItem();
-        __rowItem11.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Metal Adventures", null));
-        tableWidget1.setVerticalHeaderItem(3, __rowItem11);
-
-        QTableWidgetItem __rowItem12 = new QTableWidgetItem();
-        __rowItem12.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Jeu surprise", null));
-        tableWidget1.setVerticalHeaderItem(4, __rowItem12);
-
-        QTableWidgetItem __rowItem13 = new QTableWidgetItem();
-        __rowItem13.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Mind Dagger", null));
-        tableWidget1.setVerticalHeaderItem(5, __rowItem13);
-
-        QTableWidgetItem __rowItem14 = new QTableWidgetItem();
-        __rowItem14.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Ombres d'Esteren", null));
-        tableWidget1.setVerticalHeaderItem(6, __rowItem14);
-
-        QTableWidgetItem __rowItem15 = new QTableWidgetItem();
-        __rowItem15.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Tenga", null));
-        tableWidget1.setVerticalHeaderItem(7, __rowItem15);
+        tableWidget1.setRowCount(0);
         gamesTabWidget.setTabText(gamesTabWidget.indexOf(tab_2), com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Saturday", null));
         tableWidget2.clear();
         tableWidget2.setColumnCount(2);
@@ -487,55 +415,7 @@ public class Ui_PlayerSettings implements com.trolltech.qt.QUiForm<QDialog>
         QTableWidgetItem __colItem5 = new QTableWidgetItem();
         __colItem5.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "PJ", null));
         tableWidget2.setHorizontalHeaderItem(1, __colItem5);
-        tableWidget2.setRowCount(10);
-
-        QTableWidgetItem __rowItem16 = new QTableWidgetItem();
-        __rowItem16.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Donjons et Dragons 4", null));
-        tableWidget2.setVerticalHeaderItem(0, __rowItem16);
-
-        QTableWidgetItem __rowItem17 = new QTableWidgetItem();
-        __rowItem17.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Pathfinder", null));
-        tableWidget2.setVerticalHeaderItem(1, __rowItem17);
-
-        QTableWidgetItem __rowItem18 = new QTableWidgetItem();
-        __rowItem18.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Capharna\u00fcm", null));
-        tableWidget2.setVerticalHeaderItem(2, __rowItem18);
-
-        QTableWidgetItem __rowItem19 = new QTableWidgetItem();
-        __rowItem19.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Hellywood", null));
-        tableWidget2.setVerticalHeaderItem(3, __rowItem19);
-
-        QTableWidgetItem __rowItem20 = new QTableWidgetItem();
-        __rowItem20.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Dark Heresy", null));
-        tableWidget2.setVerticalHeaderItem(4, __rowItem20);
-
-        QTableWidgetItem __rowItem21 = new QTableWidgetItem();
-        __rowItem21.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Rogue Trader", null));
-        tableWidget2.setVerticalHeaderItem(5, __rowItem21);
-
-        QTableWidgetItem __rowItem22 = new QTableWidgetItem();
-        __rowItem22.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Jeu surprise", null));
-        tableWidget2.setVerticalHeaderItem(6, __rowItem22);
-
-        QTableWidgetItem __rowItem23 = new QTableWidgetItem();
-        __rowItem23.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Mind Dagger", null));
-        tableWidget2.setVerticalHeaderItem(7, __rowItem23);
-
-        QTableWidgetItem __rowItem24 = new QTableWidgetItem();
-        __rowItem24.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Ombres d'Esteren", null));
-        tableWidget2.setVerticalHeaderItem(8, __rowItem24);
-
-        QTableWidgetItem __rowItem25 = new QTableWidgetItem();
-        __rowItem25.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Tenga", null));
-        tableWidget2.setVerticalHeaderItem(9, __rowItem25);
-
-        QTableWidgetItem __item2 = new QTableWidgetItem();
-        __item2.setText("");
-        tableWidget2.setItem(0, 0, __item2);
-
-        QTableWidgetItem __item3 = new QTableWidgetItem();
-        __item3.setText("");
-        tableWidget2.setItem(0, 1, __item3);
+        tableWidget2.setRowCount(0);
         gamesTabWidget.setTabText(gamesTabWidget.indexOf(tab_3), com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Sunday", null));
         groupBox_Required_2.setTitle(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Contact Informations", null));
         label_Name_2.setText(com.trolltech.qt.core.QCoreApplication.translate("PlayerSettings", "Address", null));

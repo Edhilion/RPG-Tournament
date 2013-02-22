@@ -1,99 +1,75 @@
 package fr.graal.rpgtournament.tournament;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
-import fr.graal.rpgtournament.game.Game;
+import org.apache.commons.collections.CollectionUtils;
 
-/**
- * @author Eric VAN DE BOR
- * @author Sébastien VICARD
- * @version 1.1
- */
+import fr.graal.rpgtournament.RPGTournamentMngrConstants;
+import fr.graal.rpgtournament.game.Table;
+import fr.graal.rpgtournament.player.Player;
 
-public class Round implements Serializable {
+public class Round {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3986451105313405355L;
-	// List of games indexed by priority
-	protected Map<Integer, Game> gmGamesList;
-	protected Map<Integer, Game> pGamesList;
-
-	protected boolean isMaster;
-
+	private Set<Table> tables;
+	private Set<Player> playersWithoutTable;
+	
 	public Round() {
-		gmGamesList = new Hashtable<Integer, Game>();
-		pGamesList = new Hashtable<Integer, Game>();
+		tables = new HashSet<Table>();
+		playersWithoutTable = new HashSet<Player>();
 	}
-
-	public Map<Integer, Game> getGmGamesList() {
-		return gmGamesList;
+	
+	public Round(Set<Table> tables, Set<Player> playersWithoutTable) {
+		this.tables = tables;
+		this.playersWithoutTable = playersWithoutTable;
 	}
-
-	public Map<Integer, Game> getPGamesList() {
-		return pGamesList;
-	}
-
-	public boolean isMaster() {
-		return isMaster;
-	}
-
-	public void setIsMaster() {
-		isMaster = true;
-	}
-
-	public void setIsPlayer() {
-		isMaster = false;
-	}
-
-	public Game getGame(Integer gameNbr, boolean isMaster) {
-		if (isMaster)
-			return gmGamesList.get(gameNbr);
-		else
-			return pGamesList.get(gameNbr);
-	}
-
-	public Game getFirstGame(boolean isMaster) {
-		Game result = null;
-		if (isMaster) {
-			List<Integer> indexes = new ArrayList<Integer>(gmGamesList.keySet());
-			Collections.sort(indexes);
-			for (Integer i : indexes) {
-				if (gmGamesList.containsKey(i)) {
-					result = gmGamesList.get(i);
-				}
-			}
-		} else {
-			List<Integer> indexes = new ArrayList<Integer>(pGamesList.keySet());
-			Collections.sort(indexes);
-			for (Integer i : indexes) {
-				if (pGamesList.containsKey(i)) {
-					result = pGamesList.get(i);
-				}
+	
+	public String getTablesAsString() {
+		StringBuilder tablesAsString = new StringBuilder();
+		int tableNumber = 1;
+		
+		if (CollectionUtils.isNotEmpty(tables)) {
+			for (Table table : tables) {
+				tablesAsString.append(table.asString(tableNumber++))
+				.append("\n");
 			}
 		}
-		return result;
+		return tablesAsString.toString();
+	}
+	
+	public String playersWithoutTableAsString() {
+		String returnedString = "";
+		if (CollectionUtils.isNotEmpty(playersWithoutTable)) {
+			for (Player player : playersWithoutTable) {
+				returnedString = returnedString + "     -"
+						+ player.getFullName() + "\n";
+			}
+		} else {
+			returnedString = "     "
+					+ RPGTournamentMngrConstants.Texts.getString("NoPlayer")
+					+ "\n";
+		}
+		return returnedString;
+	} 
+	
+	public void addTable(Table table) {
+		tables.add(table);
+	}	
+	
+
+	public Set<Table> getTables() {
+		return tables;
 	}
 
-	public void setGame(Integer gameNbr, Game game, boolean isMaster) {
-		if (isMaster)
-			gmGamesList.put(gameNbr, game);
-		else
-			pGamesList.put(gameNbr, game);
+	public void setTables(Set<Table> tables) {
+		this.tables = tables;
 	}
 
-	public void setGmGameList(Map<Integer, Game> listOfGames) {
-		this.gmGamesList = listOfGames;
+	public Set<Player> getPlayersWithoutTable() {
+		return playersWithoutTable;
 	}
 
-	public void setPGameList(Map<Integer, Game> listOfGames) {
-		this.pGamesList = listOfGames;
+	public void setPlayersWithoutTable(Set<Player> playersWithoutTable) {
+		this.playersWithoutTable = playersWithoutTable;
 	}
-
 }

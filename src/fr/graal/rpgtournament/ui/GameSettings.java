@@ -1,8 +1,8 @@
 package fr.graal.rpgtournament.ui;
 
-import com.trolltech.qt.gui.*;
-
-import fr.graal.rpgtournament.Ui_GameSettings;
+import com.trolltech.qt.gui.QApplication;
+import com.trolltech.qt.gui.QDialog;
+import com.trolltech.qt.gui.QWidget;
 
 public class GameSettings extends QDialog {
 
