@@ -31,9 +31,12 @@ import fr.graal.rpgtournament.player.Player;
 public class TournamentSchedule implements Serializable {
 
 	private static final long serialVersionUID = -7447165790760414910L;
+	
+	private static final int WORST_GAME_CHOICE = 100;
 
 	protected Map<Integer, Round> rounds;
 	protected Map<Integer, Set<Player>> playersWithoutTable;
+	private Map<Player, Integer> playerChoices; 
 
 	public TournamentSchedule() {
 		System.out.println("création activée");
@@ -126,6 +129,15 @@ public class TournamentSchedule implements Serializable {
 			}
 		}
 	}
+	
+	private void setPlayerChoice(Player player, int gameWishIndex) {
+		Integer sumOfChoices = playerChoices.get(player);
+		if (sumOfChoices == null) {
+			playerChoices.put(player, gameWishIndex);
+		} else {
+			playerChoices.put(player, sumOfChoices + gameWishIndex);
+		}
+	}
 
 	public void computeOneRound(int roundNumber, List<Player> players)
 			throws Exception {
@@ -168,6 +180,7 @@ public class TournamentSchedule implements Serializable {
 						+ " défini comme Maitre pour la ronde " + roundNumber
 						+ " n'a pas de jeu paramétré");
 			}
+			setPlayerChoice(master, WORST_GAME_CHOICE);
 		}
 		// Triage des listes par ordre d'inscription
 		Collections.sort(femalePlayers);
@@ -182,7 +195,7 @@ public class TournamentSchedule implements Serializable {
 		Set<Player> tempPlayerListWithoutTable = new HashSet<Player>();
 
 		for (int i = 0; i < nbPlayer; i++) {
-			player = (Player) femalePlayers.get(i);
+			player = femalePlayers.get(i);
 			System.out.println("---------------- Traitement de "
 					+ player.getLastname());
 			playerPlaced = false;
@@ -206,8 +219,6 @@ public class TournamentSchedule implements Serializable {
 						tableListPossible.add(table);
 					}
 				}
-				// System.out.println("TTest 1");
-				// debugTableList(tableListPossible,0);
 				// test si le joueur a des tables disponibles par rapport au jeu
 				// selectionné.
 				List<Table> tempVector = getAvailableTableOnGame(
@@ -215,34 +226,24 @@ public class TournamentSchedule implements Serializable {
 						player.getGameWishes().get(new Integer(roundNumber))
 								.getGame(new Integer(j), false));
 				tableListPossible = tempVector;
-				// System.out.println("TTest 2");
-				// debugTableList(tableListPossible,0);
 				// test si le joueur a déjà joué avec le même maître du jeu
 				tempVector = getAvailableTableOnPreviousMaster(
 						tableListPossible, player, roundNumber);
 				if (!tempVector.isEmpty()) {
-					// System.out.println("TTest 3");
 					tableListPossible = tempVector;
-					// debugTableList(tableListPossible,0);
 					// test si le joueur est dans la bonne tranche d'age
 					tempVector = getAvailableTableAge(tableListPossible,
 							player.getAge());
 					if (!tempVector.isEmpty()) {
-						// System.out.println("TTest 4");
 						tableListPossible = tempVector;
-						// debugTableList(tableListPossible,0);
 						// test si il n y a pas d'autre fille sur la table
 						if (!player.isMale()) {
-							// System.out.println("TTest 5");
 							tableListPossible = getAvailableFemaleTable(tableListPossible);
-							// debugTableList(tableListPossible,0);
 							// test s'il n'y a pas d'autre joueur du même club
 							// que lui
 							if (player.isClubMember()) {
-								// System.out.println("TTest 6");
 								tableListPossible = getAvailableTableClub(
 										tableListPossible, player.getClubName());
-								// debugTableList(tableListPossible,0);
 							}
 						}
 					}
@@ -251,8 +252,6 @@ public class TournamentSchedule implements Serializable {
 				// test s'il le joueur peut être placé dans une table
 				if (!tableListPossible.isEmpty()) {
 					if (tableListPossible.size() > 1) {
-						// Random rnd = new Random( );
-						// ((Table)tableListPossible.elementAt(rnd.nextInt(tableListPossible.size()))).addPlayer(player);
 						tableListPossible.get(
 								tableMoreFilled(tableListPossible)).addPlayer(
 								player);
@@ -260,6 +259,7 @@ public class TournamentSchedule implements Serializable {
 						tableListPossible.get(0).addPlayer(player);
 					}
 					playerPlaced = true;
+					setPlayerChoice(player, player.getGameWishes().get(roundNumber).findGameWishIndex(tableListPossible.get(0).getGame()));
 					player.getNotations().get(roundNumber)
 							.setGame(tableListPossible.get(0).getGame());
 					player.getNotations().get(roundNumber)

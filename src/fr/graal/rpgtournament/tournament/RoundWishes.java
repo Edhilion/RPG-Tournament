@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import fr.graal.rpgtournament.game.Game;
 
@@ -86,6 +87,28 @@ public class RoundWishes implements Serializable {
 
 	public void setPGameList(Map<Integer, Game> listOfGames) {
 		this.pGamesList = listOfGames;
+	}
+	
+	public Integer findGameWishIndex(Game game) {
+		return isMaster ? findMasterGameWishIndex(game) : findPlayerGameWishIndex(game);
+	}
+	
+	private Integer findPlayerGameWishIndex(Game game) {
+		for (Entry<Integer, Game> gameWish : pGamesList.entrySet()) {
+			if (gameWish.getValue().equals(game)) {
+				return gameWish.getKey();
+			}
+		}
+		return null;
+	}
+	
+	private Integer findMasterGameWishIndex(Game game) {
+		for (Entry<Integer, Game> gameWish : gmGamesList.entrySet()) {
+			if (gameWish.getValue().equals(game)) {
+				return gameWish.getKey();
+			}
+		}
+		return null;
 	}
 
 }
