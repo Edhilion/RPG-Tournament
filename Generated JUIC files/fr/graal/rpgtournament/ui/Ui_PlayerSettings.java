@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'PlayersSettings.jui'
 **
-** Created: ven. 22. févr. 22:13:34 2013
+** Created: mar. 26. févr. 14:07:45 2013
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

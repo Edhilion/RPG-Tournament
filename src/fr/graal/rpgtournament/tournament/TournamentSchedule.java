@@ -19,7 +19,6 @@ import java.util.Set;
 import fr.graal.rpgtournament.RPGTournamentMngrConstants;
 import fr.graal.rpgtournament.game.Game;
 import fr.graal.rpgtournament.game.Table;
-import fr.graal.rpgtournament.notation.Notation;
 import fr.graal.rpgtournament.player.Player;
 
 /**
@@ -34,7 +33,6 @@ public class TournamentSchedule implements Serializable {
 
 	protected Map<Integer, Round> rounds;
 	protected Map<Integer, Set<Player>> playersWithoutTable;
-	private Map<Player, Integer> playerChoices; 
 
 	public TournamentSchedule() {
 		System.out.println("création activée");
@@ -161,7 +159,7 @@ public class TournamentSchedule implements Serializable {
 						+ " défini comme Maitre pour la ronde " + roundNumber
 						+ " n'a pas de jeu paramétré");
 			}
-			master.setPlayedGame(roundNumber, Player.WORST_GAME_CHOICE);
+			master.setMasteredGame(roundNumber, firstGameChoice);
 		}
 		// Triage des listes par ordre d'inscription
 		Collections.sort(femalePlayers);
@@ -240,11 +238,7 @@ public class TournamentSchedule implements Serializable {
 						tableListPossible.get(0).addPlayer(player);
 					}
 					playerPlaced = true;
-					player.setPlayedGame(roundNumber, player.getGameWishes().get(roundNumber).findGameWishIndex(tableListPossible.get(0).getGame()));
-					player.getNotations().get(roundNumber)
-							.setGame(tableListPossible.get(0).getGame());
-					player.getNotations().get(roundNumber)
-							.setType(Notation.PLAYER);
+					player.setPlayedGame(roundNumber, tableListPossible.get(0).getGame());
 					System.out.println(player.getFullName() + " placé");
 				} else {
 					// si le joueur n'est pas placé
