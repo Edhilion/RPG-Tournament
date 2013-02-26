@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ import fr.graal.rpgtournament.tournament.RoundWishes;
 
 public class Player implements Serializable, Comparable<Player> {
 
-	private static final DateFormat df = DateFormat
+	public static final DateFormat df = DateFormat
 			.getDateInstance(DateFormat.SHORT);
 
 	public enum Gender {
@@ -51,7 +52,7 @@ public class Player implements Serializable, Comparable<Player> {
 	private boolean isClubMember;
 	private String clubName;
 
-	private String inscriptionDate;
+	private Date inscriptionDate;
 	private boolean alreadyPaid;
 
 	private Map<Integer, RoundWishes> gameWishes;	
@@ -80,7 +81,7 @@ public class Player implements Serializable, Comparable<Player> {
 	public Player(String lastname, String firstname, String nickname, int age, Gender gender,
 			String adress, String postCode, String city, String phoneNumber,
 			String emailAdress, boolean keptInTouch, int yearsOfRPG,
-			boolean isClubMember, String clubName, String inscriptionDate,
+			boolean isClubMember, String clubName, Date inscriptionDate,
 			boolean alreadyPaid, Map<Integer, RoundWishes> roundList) {
 		this(lastname, firstname, nickname);
 		this.age = age;
@@ -93,7 +94,7 @@ public class Player implements Serializable, Comparable<Player> {
 		this.yearsOfRPG = yearsOfRPG;
 		this.isClubMember = isClubMember;
 		this.clubName = clubName;
-		this.inscriptionDate = inscriptionDate;
+		this.inscriptionDate = new Date();
 		this.alreadyPaid = alreadyPaid;
 		this.gameWishes = roundList;
 
@@ -102,7 +103,7 @@ public class Player implements Serializable, Comparable<Player> {
 	public Player(String lastname, String firstname, String nickname, int age, Gender gender,
 			String adress, String postCode, String city, String phoneNumber,
 			String emailAdress, boolean keptInTouch, int yearsOfRPG,
-			boolean isClubMember, String clubName, String inscriptionDate,
+			boolean isClubMember, String clubName, Date inscriptionDate,
 			boolean alreadyPaid, Map<Integer, RoundWishes> roundList,
 			Map<Integer, Notation> notations) {
 		this(lastname, firstname, nickname, age, gender, adress, postCode, city,
@@ -181,28 +182,12 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 
 	public int compareTo(Player player) {
-		try {
-			if (this.getSumOfPriorities() == player.getSumOfPriorities()) {
-				if ((this.inscriptionDate.equals(""))
-						&& (player.getInscriptionDate()).equals("")) {
-					return 0;
-				} else if (this.inscriptionDate.equals("")) {
-					return 1;
-				} else if (player.getInscriptionDate().equals("")) {
-					return -1;
-				} else {
-					return (df.parse(this.inscriptionDate).compareTo(df
-							.parse(player.getInscriptionDate())));
-				}
-			} else if (this.getSumOfPriorities() > player.getSumOfPriorities()) {
-				return -1;
-			} else {
-				return 1;
-			}
-		} catch (ParseException ex) {
-			System.out.println("EXCEPTION");
-			ex.printStackTrace();
-			return 0;
+		if (this.getSumOfPriorities() == player.getSumOfPriorities()) {
+			return inscriptionDate.compareTo(player.getInscriptionDate());
+		} else if (this.getSumOfPriorities() > player.getSumOfPriorities()) {
+			return -1;
+		} else {
+			return 1;
 		}
 	}
 	
@@ -306,7 +291,7 @@ public class Player implements Serializable, Comparable<Player> {
 		return this.clubName;
 	}
 
-	public String getInscriptionDate() {
+	public Date getInscriptionDate() {
 		return this.inscriptionDate;
 	}
 
@@ -383,7 +368,7 @@ public class Player implements Serializable, Comparable<Player> {
 		this.clubName = clubName;
 	}
 
-	public void setInscriptionDate(String inscriptionDate) {
+	public void setInscriptionDate(Date inscriptionDate) {
 		this.inscriptionDate = inscriptionDate;
 	}
 

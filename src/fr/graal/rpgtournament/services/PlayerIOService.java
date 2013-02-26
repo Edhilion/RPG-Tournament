@@ -3,6 +3,7 @@ package fr.graal.rpgtournament.services;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.Map;
 
 import fr.graal.rpgtournament.notation.Notation;
@@ -14,7 +15,8 @@ public class PlayerIOService {
 
 	@SuppressWarnings("unchecked")
 	public Player readObject(ObjectInputStream ois) {
-		String lastname, firstname, nickname, address, postCode, city, phoneNumber, email, clubName, inscriptionDate;
+		String lastname, firstname, nickname, address, postCode, city, phoneNumber, email, clubName;
+		Date inscriptionDate;
 		int age, yearsOfRPG;
 		boolean keepInTouch, isClubMember, alreadyPaid;
 		Map<Integer, RoundWishes> gameWishes;
@@ -37,7 +39,7 @@ public class PlayerIOService {
 			yearsOfRPG = ois.readInt();
 			isClubMember = ois.readBoolean();
 			clubName = (String) ois.readObject();
-			inscriptionDate = (String) ois.readObject();
+			inscriptionDate = (Date) ois.readObject();
 			alreadyPaid = ois.readBoolean();
 			gameWishes = (Map<Integer, RoundWishes>) ois.readObject();
 			notations = (Map<Integer, Notation>) ois.readObject();

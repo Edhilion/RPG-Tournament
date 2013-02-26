@@ -5,8 +5,10 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -364,6 +366,15 @@ public class RPGTournamentManager extends QMainWindow {
 			round2.setPGameList(pGames);
 			if (gmGames.size() > 0 || pGames.size() > 0)
 				rdList.put(2, round2);
+			
+			Date inscriptionDate = new Date();
+			try {
+				inscriptionDate = Player.df.parse(playerDialog.dateEdit.date().toString(
+						Qt.DateFormat.SystemLocaleShortDate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			player = new Player(playerDialog.lineEdit_LastName.text(),
 					playerDialog.lineEdit_FirstName.text(),
@@ -383,8 +394,7 @@ public class RPGTournamentManager extends QMainWindow {
 							.text() : "0"), playerDialog.comboBox_Club
 							.currentText().length() > 0,
 					playerDialog.comboBox_Club.currentText(),
-					playerDialog.dateEdit.date().toString(
-							Qt.DateFormat.SystemLocaleShortDate),
+					inscriptionDate,
 					playerDialog.checkBox_Paid.isChecked(), rdList);
 
 			mainDataManager.addPerson(player);
