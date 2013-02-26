@@ -93,7 +93,7 @@ public class Game implements Serializable, Comparable<Game> {
 	}
 
 	public int compareTo(Game game) {
-		if (game == null) {
+		if (game == null || index == null) {
 			return -1;
 		} else {
 			return this.index.compareTo(game.getIndex());

@@ -2,7 +2,9 @@ package fr.graal.rpgtournament.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -20,12 +22,12 @@ public class Table implements Serializable {
 
 	private Game game;
 	private Player master;
-	private ArrayList<Player> playersList;
+	private Set<Player> players;
 
 	public Table(Player master, Game game) {
 		this.game = game;
 		this.master = master;
-		this.playersList = new ArrayList<Player>();
+		this.players = new HashSet<Player>();
 	}
 
 	public Game getGame() {
@@ -45,38 +47,29 @@ public class Table implements Serializable {
 	}
 
 	public void addPlayer(Player player) {
-		this.playersList.add(player);
+		if (!player.equals(master)) {
+			this.players.add(player);
+		}
 	}
 
-	public List<Player> getPlayerList() {
-		return playersList;
+	public Set<Player> getPlayers() {
+		return players;
 	}
 
 	public boolean isFivePlayer() {
-		return playersList.size() >= 5;
+		return players.size() >= 5;
 	}
 
 	public boolean isSixPlayer() {
-		return playersList.size() == 6;
+		return players.size() == 6;
 	}
 
-	public boolean containsPlayer(Player p) {
-		int size = playersList.size();
-		for (int i = 0; i < size; i++) {
-			if (playersList.get(i).equals(p)) {
-				return true;
-			}
-		}
-		return false;
+	public boolean containsPlayer(Player player) {
+		return players.contains(player);
 	}
 
-	public void removePlayer(Player p) {
-		int size = playersList.size();
-		for (int i = 0; i < size; i++) {
-			if (playersList.get(i).equals(p)) {
-				playersList.remove(i);
-			}
-		}
+	public void removePlayer(Player player) {
+		players.remove(player);
 	}
 
 	private String getTitleForDisplay(int tableNumber) {
@@ -115,8 +108,8 @@ public class Table implements Serializable {
 
 	private String playerListToString() {
 		String returnedString = "";
-		if (CollectionUtils.isNotEmpty(playersList)) {
-			for (Player player : playersList) {
+		if (CollectionUtils.isNotEmpty(players)) {
+			for (Player player : players) {
 				returnedString = returnedString + "     -"
 						+ player.getFullName() + "\n";
 			}

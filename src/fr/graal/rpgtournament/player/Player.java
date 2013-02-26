@@ -30,6 +30,8 @@ public class Player implements Serializable, Comparable<Player> {
 	public enum Gender {
 		FEMALE, MALE
 	};
+	
+	public static final int WORST_GAME_CHOICE = 100;
 
 	private static final long serialVersionUID = -6600900997440902409L;
 	private String lastname;
@@ -52,9 +54,11 @@ public class Player implements Serializable, Comparable<Player> {
 	private String inscriptionDate;
 	private boolean alreadyPaid;
 
-	private Map<Integer, RoundWishes> gameWishes;
+	private Map<Integer, RoundWishes> gameWishes;	
 
 	private Map<Integer, Notation> notations;
+	
+	private Map<Integer, Integer> playedGamesPriorities;
 	
 	public Player(String lastname, String firstname) {
 		checkArgument(StringUtils.isNotBlank(lastname),
@@ -65,6 +69,7 @@ public class Player implements Serializable, Comparable<Player> {
 		this.firstname = firstname;
 		this.gameWishes = new HashMap<Integer, RoundWishes>();
 		this.notations = new HashMap<Integer, Notation>();
+		this.playedGamesPriorities = new HashMap<Integer, Integer>();
 	}
 	
 	public Player (String lastname, String firstname, String nickname) {
@@ -177,22 +182,36 @@ public class Player implements Serializable, Comparable<Player> {
 
 	public int compareTo(Player player) {
 		try {
-			if ((this.inscriptionDate.equals(""))
-					&& (player.getInscriptionDate()).equals("")) {
-				return 0;
-			} else if (this.inscriptionDate.equals("")) {
-				return 1;
-			} else if (player.getInscriptionDate().equals("")) {
+			if (this.getSumOfPriorities() == player.getSumOfPriorities()) {
+				if ((this.inscriptionDate.equals(""))
+						&& (player.getInscriptionDate()).equals("")) {
+					return 0;
+				} else if (this.inscriptionDate.equals("")) {
+					return 1;
+				} else if (player.getInscriptionDate().equals("")) {
+					return -1;
+				} else {
+					return (df.parse(this.inscriptionDate).compareTo(df
+							.parse(player.getInscriptionDate())));
+				}
+			} else if (this.getSumOfPriorities() > player.getSumOfPriorities()) {
 				return -1;
 			} else {
-				return (df.parse(this.inscriptionDate).compareTo(df
-						.parse(player.getInscriptionDate())));
+				return 1;
 			}
 		} catch (ParseException ex) {
 			System.out.println("EXCEPTION");
 			ex.printStackTrace();
 			return 0;
 		}
+	}
+	
+	private int getSumOfPriorities() {
+		int sum = 0;
+		for (Integer priority : playedGamesPriorities.values()) {
+			sum += priority != null ? priority.intValue() : WORST_GAME_CHOICE;
+		}
+		return sum;
 	}
 
 	public boolean isPlayingInRound(int roundNumber) {
@@ -203,8 +222,12 @@ public class Player implements Serializable, Comparable<Player> {
 		return this.getLastname() + " " + this.getFirstname();
 	}
 	
-	public void setGameForRound(int roundNumber, Game game) {
+	public void setGameAsMasterForRound(int roundNumber, Game game) {
 		notations.put(roundNumber, Notation.newGameMasterNotation(Notation.DEFAULT_NOTE, game));
+	}
+	
+	public void setPlayedGame(int roundNumber, Integer gamePriority) {
+		playedGamesPriorities.put(roundNumber, gamePriority);
 	}
 	
 	
@@ -357,6 +380,14 @@ public class Player implements Serializable, Comparable<Player> {
 
 	public void setNotations(Map<Integer, Notation> notations) {
 		this.notations = notations;
+	}
+
+	public Map<Integer, Integer> getPlayedGamesPriorities() {
+		return playedGamesPriorities;
+	}
+
+	public void setPlayedGamesPriorities(Map<Integer, Integer> playedGamesPriorities) {
+		this.playedGamesPriorities = playedGamesPriorities;
 	}
 
 }

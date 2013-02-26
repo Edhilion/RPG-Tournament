@@ -50,15 +50,15 @@ public class TableTest {
 	@Test
 	public void cannotAddSamePlayerMultipleTimes() {
 		table.addPlayer(pc1);
-		assertEquals(1, table.getPlayerList().size());
-		assertEquals(pc1, table.getPlayerList().get(0));
+		assertEquals(1, table.getPlayers().size());
+		assertTrue(table.getPlayers().contains(pc1));
 	}
 	
 	@Test
 	public void cannotAddGMAsPlayer() {
 		table.addPlayer(gm); // TODO : devrait lancer une exception ou un message d'avertissement
-		assertEquals(1, table.getPlayerList().size());
-		assertEquals(pc1, table.getPlayerList().get(0));
+		assertEquals(1, table.getPlayers().size());
+		assertTrue(table.getPlayers().contains(pc1));
 	}
 
 }

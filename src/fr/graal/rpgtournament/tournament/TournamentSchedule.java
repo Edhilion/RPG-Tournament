@@ -31,8 +31,6 @@ import fr.graal.rpgtournament.player.Player;
 public class TournamentSchedule implements Serializable {
 
 	private static final long serialVersionUID = -7447165790760414910L;
-	
-	private static final int WORST_GAME_CHOICE = 100;
 
 	protected Map<Integer, Round> rounds;
 	protected Map<Integer, Set<Player>> playersWithoutTable;
@@ -70,7 +68,7 @@ public class TournamentSchedule implements Serializable {
 
 	public void debugTableList(ArrayList<Table> v, int det) {
 		Table t;
-		List<Player> playersList;
+		Set<Player> players;
 		if (!v.isEmpty()) {
 			for (int i = 0; i < v.size(); i++) {
 				t = v.get(i);
@@ -79,8 +77,8 @@ public class TournamentSchedule implements Serializable {
 				if (det == 1) {
 					System.out.println("Game: " + t.getGame());
 					System.out.println("Player List: ");
-					playersList = t.getPlayerList();
-					debugPlayerList(playersList);
+					players = t.getPlayers();
+					debugPlayerList(players);
 				}
 			}
 		} else {
@@ -100,13 +98,10 @@ public class TournamentSchedule implements Serializable {
 		return returnedString;
 	}
 
-	public void debugPlayerList(List<Player> playersList) {
-		Player p;
-		if (!playersList.isEmpty()) {
-			for (int j = 0; j < playersList.size(); j++) {
-				p = playersList.get(j);
-				System.out.println("--" + p.getLastname() + " "
-						+ p.getFirstname());
+	public void debugPlayerList(Set<Player> players) {
+		if (!players.isEmpty()) {
+			for (Player player : players) {
+				System.out.println("--" + player.getFullName());
 			}
 		} else {
 			System.out.println("Liste vide");
@@ -117,25 +112,9 @@ public class TournamentSchedule implements Serializable {
 		for (int i = 0; i < nbOfRound; i++) {
 			try {
 				computeOneRound(i, arrayList);
-
-				// Affichage du resultat
-				// System.out.println("--------------------Resultat-------------");
-				// debugTableList ((Vector)tournamentSchedule.get(new
-				// Integer(i)),1);
-				// System.out.println("---------------------Joueur non placé----");
-				// debugPlayerList (PlayerListWithoutTable);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		}
-	}
-	
-	private void setPlayerChoice(Player player, int gameWishIndex) {
-		Integer sumOfChoices = playerChoices.get(player);
-		if (sumOfChoices == null) {
-			playerChoices.put(player, gameWishIndex);
-		} else {
-			playerChoices.put(player, sumOfChoices + gameWishIndex);
 		}
 	}
 
@@ -145,6 +124,8 @@ public class TournamentSchedule implements Serializable {
 				+ "*******************************");
 
 		rounds.put(roundNumber, new Round());
+		
+		
 
 		List<Player> masters = new ArrayList<Player>();
 		List<Player> femalePlayers = new ArrayList<Player>();
@@ -174,13 +155,13 @@ public class TournamentSchedule implements Serializable {
 			if (firstGameChoice != null) {
 				rounds.get(roundNumber).addTable(
 						new Table(master, firstGameChoice));
-				master.setGameForRound(roundNumber, firstGameChoice);
+				master.setGameAsMasterForRound(roundNumber, firstGameChoice);
 			} else {
 				System.out.println(master.getFullName()
 						+ " défini comme Maitre pour la ronde " + roundNumber
 						+ " n'a pas de jeu paramétré");
 			}
-			setPlayerChoice(master, WORST_GAME_CHOICE);
+			master.setPlayedGame(roundNumber, Player.WORST_GAME_CHOICE);
 		}
 		// Triage des listes par ordre d'inscription
 		Collections.sort(femalePlayers);
@@ -197,7 +178,7 @@ public class TournamentSchedule implements Serializable {
 		for (int i = 0; i < nbPlayer; i++) {
 			player = femalePlayers.get(i);
 			System.out.println("---------------- Traitement de "
-					+ player.getLastname());
+					+ player.getFullName());
 			playerPlaced = false;
 			int j = 1;
 			// pour chaque jeu
@@ -259,7 +240,7 @@ public class TournamentSchedule implements Serializable {
 						tableListPossible.get(0).addPlayer(player);
 					}
 					playerPlaced = true;
-					setPlayerChoice(player, player.getGameWishes().get(roundNumber).findGameWishIndex(tableListPossible.get(0).getGame()));
+					player.setPlayedGame(roundNumber, player.getGameWishes().get(roundNumber).findGameWishIndex(tableListPossible.get(0).getGame()));
 					player.getNotations().get(roundNumber)
 							.setGame(tableListPossible.get(0).getGame());
 					player.getNotations().get(roundNumber)
@@ -273,8 +254,6 @@ public class TournamentSchedule implements Serializable {
 					}
 				}
 				j++;
-				// debugTableList ((Vector)tournamentSchedule.get(new
-				// Integer(roundNbr)),1);
 			}
 		}
 		this.playersWithoutTable.put(roundNumber,
@@ -358,45 +337,38 @@ public class TournamentSchedule implements Serializable {
 
 	}
 
-	protected List<Table> getAvailableTableClub(List<Table> tableList,
+	protected List<Table> getAvailableTableClub(List<Table> tables,
 			String clubName) {
 		List<Table> resultListOfTable = new ArrayList<Table>();
-		int nbTable = tableList.size();
-		for (int i = 0; i < nbTable; i++) {
-			List<Player> playerList = tableList.get(i).getPlayerList();
-			int nbPlayer = playerList.size();
-			int j = 0;
+		for (Table table : tables) {
+			Set<Player> players = table.getPlayers();
 			boolean clubFound = false;
-			while ((j < nbPlayer) && (!clubFound)) {
-				if (((Player) playerList.get(j)).getClubName().equals(clubName)) {
+			for (Player player : players) {
+				if (player.getClubName().equals(clubName)) {
 					clubFound = true;
+					break;
 				}
-				j++;
 			}
 			if (!clubFound) {
-				resultListOfTable.add(tableList.get(i));
+				resultListOfTable.add(table);
 			}
 		}
 		return resultListOfTable;
 	}
 
-	protected List<Table> getAvailableFemaleTable(List<Table> tableList) {
+	protected List<Table> getAvailableFemaleTable(List<Table> tables) {
 		List<Table> resultListOfTable = new ArrayList<Table>();
-		int nbTable = tableList.size();
-		for (int i = 0; i < nbTable; i++) {
-			List<Player> playerList = tableList.get(i).getPlayerList();
-			int nbPlayer = playerList.size();
-			int j = 0;
+		for (Table table : tables) {
+			Set<Player> players = table.getPlayers();
 			boolean female = false;
-			while ((j < nbPlayer) && (!female)) {
-				if (!playerList.get(j).isMale()) {
-					// System.out.println("Fille trouver table" + (i+1));
+			for (Player player : players) {
+				if (!player.isMale()) {
 					female = true;
+					break;
 				}
-				j++;
 			}
 			if (!female) {
-				resultListOfTable.add(tableList.get(i));
+				resultListOfTable.add(table);
 			}
 		}
 		return resultListOfTable;
@@ -407,8 +379,8 @@ public class TournamentSchedule implements Serializable {
 		int nbTable = tableList.size();
 		int numberOfPlayer = 0;
 		for (int i = 0; i < nbTable; i++) {
-			if (tableList.get(i).getPlayerList().size() > numberOfPlayer) {
-				numberOfPlayer = tableList.get(i).getPlayerList().size();
+			if (tableList.get(i).getPlayers().size() > numberOfPlayer) {
+				numberOfPlayer = tableList.get(i).getPlayers().size();
 				index = i;
 			}
 
@@ -420,15 +392,12 @@ public class TournamentSchedule implements Serializable {
 
 	public static TournamentSchedule createFromFile(String fileName) {
 		FileInputStream in = null;
-		try {
-			in = new FileInputStream(fileName);
-		} catch (FileNotFoundException ex) {
-			// ex.printStackTrace();
-			return null;
-		}
 		ObjectInputStream s = null;
 		try {
-			s = new ObjectInputStream(in);
+			in = new FileInputStream(fileName);
+			s = new ObjectInputStream(in);			
+		} catch (FileNotFoundException ex) {
+			return null;
 		} catch (IOException ex1) {
 			ex1.printStackTrace();
 			return null;
@@ -471,10 +440,8 @@ public class TournamentSchedule implements Serializable {
 
 	public void writeObject(ObjectOutputStream oos) {
 		try {
-
 			oos.writeObject(this.rounds);
 			oos.writeObject(this.playersWithoutTable);
-
 		} catch (IOException exp) {
 			exp.printStackTrace();
 		}
