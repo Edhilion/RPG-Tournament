@@ -211,6 +211,10 @@ public class Player implements Serializable, Comparable<Player> {
 		notations.put(roundNumber, Notation.newGameMasterNotation(Notation.DEFAULT_NOTE, game));
 	}
 	
+	public void playNoGame(int roundNumber) {
+		playedGamesPriorities.put(roundNumber, WORST_GAME_CHOICE);
+	}
+	
 	public void setPlayedGame(int roundNumber, Game game) {
 		int gamePriority = gameWishes.get(roundNumber).findGameWishIndex(game);
 		playedGamesPriorities.put(roundNumber, gamePriority);

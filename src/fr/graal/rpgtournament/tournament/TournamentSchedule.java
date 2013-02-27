@@ -141,6 +141,8 @@ public class TournamentSchedule implements Serializable {
 					}
 				}
 			} else {
+				player.playNoGame(roundNumber);
+				
 				System.out.println("Le joueur " + player.getFullName() + " n'a pas de ronde " + roundNumber
 						+ " définie");
 			}
