@@ -75,14 +75,15 @@ public class PrintRound implements Printable {
 		        GridBagConstraints.NONE, new Insets(10,0,0,0),0,0 ));
 		
 		Font fPlayer = new Font("courier",Font.BOLD,30);
-		for (int i = 0 ; i < ((ArrayList<Player>)table.getPlayers()).size() ; i++) {
+		int tableNumber = 1;
+		for (Player playerInTable : table.getPlayers()) {
 			
-			labelPlayersList.add(new JLabel((i+1)+"- "+((Player)((ArrayList<Player>)table.getPlayers()).get(i)).getLastname() + " " + ((Player)((ArrayList<Player>)table.getPlayers()).get(i)).getFirstname()));
-			labelPlayersList.get(i).setFont(fPlayer);
+			labelPlayersList.add(new JLabel(tableNumber + "- " + playerInTable.getFullName()));
+			labelPlayersList.get(tableNumber - 1).setFont(fPlayer);
 			
-			panel.add(labelPlayersList.get(i), new GridBagConstraints(0,i+6, 2, 1, 0, 0, GridBagConstraints.NORTHWEST,
+			panel.add(labelPlayersList.get(tableNumber - 1), new GridBagConstraints(0, tableNumber + 5, 2, 1, 0, 0, GridBagConstraints.NORTHWEST,
 			        GridBagConstraints.NONE, new Insets(0,15,0,0),0,0 ));
-			
+			tableNumber++;
 		}
 		
 		
