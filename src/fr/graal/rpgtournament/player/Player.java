@@ -170,14 +170,12 @@ public class Player implements Serializable, Comparable<Player> {
 		}
 		final Player other = (Player) obj;
 		return this.lastname.equalsIgnoreCase(other.lastname.toLowerCase())
-				&& this.firstname.equalsIgnoreCase(other.firstname.toLowerCase())
-				&& (StringUtils.equalsIgnoreCase(this.nickname, other.nickname)
-						|| (StringUtils.isBlank(this.nickname) && StringUtils.isBlank(other.nickname)));
+				&& this.firstname.equalsIgnoreCase(other.firstname.toLowerCase());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(this.lastname.toLowerCase(), this.firstname.toLowerCase(), this.nickname);
+		return Objects.hashCode(this.lastname.toLowerCase(), this.firstname.toLowerCase());
 	}
 
 	public int compareTo(Player player) {
