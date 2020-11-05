@@ -11,23 +11,23 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * </p>
  * <p>
  * Description : la classe contenant les informations d'un jeu (son nom et les
- * jours où il est joué)
+ * jours oÃ¹ il est jouÃ©)
  * </p>
  * <p>
  * Copyright : Copyright (c) 2012
  * </p>
  * <p>
- * Société :
+ * SociÃ©tÃ© :
  * </p>
  * 
- * @author VICARD Sébastien
+ * @author VICARD SÃ©bastien
  * @version 1.0
  */
 
 public class Game implements Serializable, Comparable<Game> {
 
 	private static final long serialVersionUID = 7594902657450811058L;
-	private String name;
+	private String _name;
 	private Integer index; // position du jeu dans la liste des jeux de la fiche
 							// d'inscription
 	private boolean dayOne;
@@ -38,7 +38,7 @@ public class Game implements Serializable, Comparable<Game> {
 
 	public Game(String name, boolean dayOne, boolean dayTwo, boolean dayThree,
 			Integer index) {
-		this.name = name;
+		this._name = name;
 		this.index = index;
 		this.dayOne = dayOne;
 		this.dayTwo = dayTwo;
@@ -46,13 +46,13 @@ public class Game implements Serializable, Comparable<Game> {
 	}
 
 	public Game(String name) {
-		this.name = name;
+		this._name = name;
 	}
 	
 
 
 	public String getName() {
-		return name;
+		return _name;
 	}
 	
 	public Integer getIndex() {
@@ -84,12 +84,12 @@ public class Game implements Serializable, Comparable<Game> {
 			return false;
 		Game other = (Game) obj;
 
-		return new EqualsBuilder().append(this.name, other.name).isEquals();
+		return new EqualsBuilder().append(this._name, other._name).isEquals();
 	}
 	
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder(17, 31).append(this.name).toHashCode();
+		return new HashCodeBuilder(17, 31).append(this._name).toHashCode();
 	}
 
 	public int compareTo(Game game) {
@@ -102,6 +102,6 @@ public class Game implements Serializable, Comparable<Game> {
 	
 	@Override
 	public String toString() {
-		return name;
+		return _name;
 	}
 }
