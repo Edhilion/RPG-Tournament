@@ -21,6 +21,7 @@ public class PlayerSettings extends QDialog {
     Ui_PlayerSettings ui = new Ui_PlayerSettings();
     
     /** Personal Informations **/
+    private QLineEdit lastNameField; 
     private QLineEdit pseudoField;
     private QLineEdit firstNameField;
     private QLabel ageField;
@@ -62,7 +63,7 @@ public class PlayerSettings extends QDialog {
     	QGroupBox contactInformationsGroup = new QGroupBox(tr("Contact Informations"));
     	
     	QLabel lastNameLabel = new QLabel(tr("Last Name"));
-    	QLineEdit lastNameField = new QLineEdit();
+    	lastNameField = new QLineEdit();
     	
     	QLabel pseudoLabel = new QLabel(tr("Pseudo"));
     	pseudoField = new QLineEdit();
